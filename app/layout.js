@@ -1,16 +1,16 @@
-import { Libre_Bodoni, Jost } from "next/font/google";
+import { Sora, Manrope } from "next/font/google";
 import "./globals.css";
 
-const display = Libre_Bodoni({
+const display = Sora({
   subsets: ["latin"],
   variable: "--font-display",
   weight: ["400", "500", "600", "700"],
 });
 
-const body = Jost({
+const body = Manrope({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata = {

@@ -1,3 +1,9 @@
+"use client";
+
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Reveal from "./Reveal";
+
 const items = [
   {
     problem: "“We need stronger hotel representation in the Middle East.”",
@@ -38,37 +44,74 @@ const items = [
 ];
 
 export default function Solutions() {
+  const [active, setActive] = useState(0);
+
   return (
-    <section id="solutions" className="relative overflow-hidden bg-brand-mist">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(153,153,153,0.22),transparent_45%)]" />
+    <section id="solutions" className="relative overflow-hidden mesh-bg">
       <div className="relative mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-        <div className="reveal max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.22em] text-brand-mid">
+        <Reveal className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
             How we help
           </p>
-          <h2 className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-brand-dark md:text-5xl">
-            Businesses today cross borders — you need a partner that goes where you are.
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
+            Feeling lost in growth operations?
           </h2>
-        </div>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg">
+            Businesses today cross borders — you need a partner that goes where you are.
+          </p>
+        </Reveal>
 
-        <div className="mt-14 grid gap-px overflow-hidden bg-brand-dark/10 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((item, index) => (
-            <div
-              key={item.solution}
-              className={`reveal reveal-delay-${(index % 3) + 1} bg-brand-sand p-7 md:p-8`}
-            >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-mid">
-                Challenge
-              </p>
-              <p className="mt-3 font-display text-xl leading-snug text-brand-dark">{item.problem}</p>
-              <div className="mt-8 border-t border-brand-dark/10 pt-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-dark">
-                  BizGate: {item.solution}
+        <div className="mt-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="space-y-3">
+            {items.map((item, index) => {
+              const isActive = active === index;
+              return (
+                <button
+                  key={item.solution}
+                  type="button"
+                  onClick={() => setActive(index)}
+                  className={`w-full rounded-2xl border px-5 py-4 text-left transition ${
+                    isActive
+                      ? "border-brand-blue bg-white shadow-[0_12px_30px_rgba(42,92,170,0.12)]"
+                      : "border-transparent bg-white/50 hover:border-brand-line hover:bg-white"
+                  }`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-muted">
+                    Challenge
+                  </p>
+                  <p className="mt-2 font-display text-lg leading-snug text-brand-ink">{item.problem}</p>
+                </button>
+              );
+            })}
+          </div>
+
+          <Reveal className="relative min-h-[320px] overflow-hidden rounded-[1.75rem] bg-brand-navy p-8 text-white md:p-10">
+            <div className="pointer-events-none absolute -right-10 top-0 h-48 w-48 rounded-full bg-brand-sky/25 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 left-10 h-40 w-40 rounded-full bg-brand-orange/20 blur-3xl" />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35 }}
+                className="relative"
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-orange">
+                  Solution
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-brand-ink/70">{item.answer}</p>
-              </div>
-            </div>
-          ))}
+                <h3 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em]">
+                  BizGate: {items[active].solution}
+                </h3>
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
+                  {items[active].answer}
+                </p>
+                <a href="#contact" className="btn-primary on-dark mt-8">
+                  Talk to our team
+                </a>
+              </motion.div>
+            </AnimatePresence>
+          </Reveal>
         </div>
       </div>
     </section>

@@ -19,7 +19,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-brand-dark text-white">
+    <footer className="bg-brand-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.3fr_1fr_1fr] md:px-8 md:py-20">
         <div>
           <Logo variant="light" />
@@ -40,7 +40,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-pale/70">
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
             Quick links
           </p>
           <ul className="mt-5 space-y-3">
@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-pale/70">
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
             Our services
           </p>
           <ul className="mt-5 space-y-3">

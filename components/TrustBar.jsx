@@ -1,3 +1,12 @@
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Reveal from "./Reveal";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const highlights = [
   {
     title: "Consultation",
@@ -22,32 +31,54 @@ const highlights = [
 ];
 
 export default function TrustBar() {
+  const sectionRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".trust-card", {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.1,
+        ease: "power3.out",
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden border-y border-brand-dark/10 bg-brand-dark text-white">
-      <div className="texture-grid absolute inset-0 opacity-30" />
+    <section ref={sectionRef} className="relative overflow-hidden bg-brand-navy text-white">
+      <div className="pointer-events-none absolute -left-20 top-10 h-64 w-64 rounded-full bg-brand-sky/20 blur-3xl pulse-soft" />
+      <div className="pointer-events-none absolute -right-16 bottom-0 h-72 w-72 rounded-full bg-brand-orange/15 blur-3xl pulse-soft" />
+
       <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-        <div className="reveal max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.22em] text-brand-pale/70">
+        <Reveal className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
             Ahlan Wa Sahlan — Welcome
           </p>
-          <h2 className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] md:text-4xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
             Focused on the future of travel. Connected to the travel trade.
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-white/70 md:text-lg">
+          <p className="mt-5 text-base leading-relaxed text-white/72 md:text-lg">
             We possess extensive knowledge of the Middle East market and its key leaders —
             proud to be recognized for success stories that help our clients’ brands stand
             out and gain market share.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {highlights.map((item, index) => (
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          {highlights.map((item) => (
             <div
               key={item.title}
-              className={`reveal reveal-delay-${(index % 3) + 1} border-t border-white/15 pt-5`}
+              className="trust-card rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
             >
-              <h3 className="font-display text-xl text-white">{item.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/70">{item.copy}</p>
+              <h3 className="font-display text-lg font-semibold text-white">{item.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/68">{item.copy}</p>
             </div>
           ))}
         </div>

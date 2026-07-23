@@ -8,23 +8,20 @@ import Team from "../components/Team";
 import Clients from "../components/Clients";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
-import RevealObserver from "../components/RevealObserver";
 
 export default function Home() {
   return (
-    <RevealObserver>
-      <main className="overflow-x-hidden">
-        <Header />
-        <Hero />
-        <TrustBar />
-        <Services />
-        <Solutions />
-        <About />
-        <Team />
-        <Clients />
-        <CTA />
-        <Footer />
-      </main>
-    </RevealObserver>
+    <main className="overflow-x-hidden">
+      <Header />
+      <Hero />
+      <TrustBar />
+      <Services />
+      <Solutions />
+      <About />
+      <Team />
+      <Clients />
+      <CTA />
+      <Footer />
+    </main>
   );
 }

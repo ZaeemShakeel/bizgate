@@ -1,25 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --brand-dark: #364441;
-  --brand-mid: #999999;
-  --brand-soft: #b2b2b2;
-  --brand-pale: #cccccb;
-  --brand-ink: #1f2a28;
-  --brand-fog: #f3f4f3;
-  --brand-mist: #e8ebea;
-  --brand-sand: #f7f6f4;
+  --brand-blue: #2a5caa;
+  --brand-sky: #3498db;
+  --brand-orange: #faa726;
+  --brand-teal: #1f8993;
+  --brand-ink: #1a2332;
+  --brand-muted: #5b6575;
+  --brand-line: #d7e0ea;
+  --brand-fog: #f4f7fb;
+  --brand-mist: #eaf1f8;
+  --brand-white: #ffffff;
+  --brand-navy: #163a6b;
 }
 
 @theme inline {
-  --color-brand-dark: var(--brand-dark);
-  --color-brand-mid: var(--brand-mid);
-  --color-brand-soft: var(--brand-soft);
-  --color-brand-pale: var(--brand-pale);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-sky: var(--brand-sky);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-teal: var(--brand-teal);
   --color-brand-ink: var(--brand-ink);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-line: var(--brand-line);
   --color-brand-fog: var(--brand-fog);
   --color-brand-mist: var(--brand-mist);
-  --color-brand-sand: var(--brand-sand);
+  --color-brand-white: var(--brand-white);
+  --color-brand-navy: var(--brand-navy);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
@@ -34,107 +40,125 @@ html {
 
 body {
   margin: 0;
-  background: var(--brand-sand);
+  background: var(--brand-white);
   color: var(--brand-ink);
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--brand-dark) 20%, white);
+  background: color-mix(in srgb, var(--brand-sky) 28%, white);
   color: var(--brand-ink);
 }
 
 .font-display {
-  font-family: var(--font-display), Georgia, serif;
+  font-family: var(--font-display), system-ui, sans-serif;
 }
 
 .font-body {
   font-family: var(--font-body), system-ui, sans-serif;
 }
 
-.texture-grid {
-  background-image:
-    linear-gradient(rgba(54, 68, 65, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(54, 68, 65, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-.hero-gradient {
+.hero-overlay {
   background:
     linear-gradient(
       115deg,
-      rgba(31, 42, 40, 0.78) 0%,
-      rgba(54, 68, 65, 0.55) 42%,
-      rgba(54, 68, 65, 0.2) 100%
+      rgba(22, 58, 107, 0.88) 0%,
+      rgba(42, 92, 170, 0.62) 48%,
+      rgba(31, 137, 147, 0.28) 100%
     ),
-    linear-gradient(to top, rgba(31, 42, 40, 0.55), transparent 45%);
+    linear-gradient(to top, rgba(26, 35, 50, 0.55), transparent 42%);
 }
 
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
+.mesh-bg {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(52, 152, 219, 0.16), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(250, 167, 38, 0.12), transparent 28%),
+    radial-gradient(circle at 70% 80%, rgba(31, 137, 147, 0.1), transparent 36%),
+    var(--brand-fog);
+}
+
+.nav-blur {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 999px;
+  background: var(--brand-blue);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
   transition:
-    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    color 0.25s ease;
+  box-shadow: 0 10px 24px rgba(42, 92, 170, 0.22);
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+.btn-primary:hover {
+  background: var(--brand-navy);
+  transform: translateY(-1px);
 }
 
-.reveal-delay-1 {
-  transition-delay: 0.12s;
+.btn-primary.on-dark {
+  background: #ffffff;
+  color: var(--brand-blue);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
 
-.reveal-delay-2 {
-  transition-delay: 0.24s;
+.btn-primary.on-dark:hover {
+  background: var(--brand-mist);
+  color: var(--brand-navy);
 }
 
-.reveal-delay-3 {
-  transition-delay: 0.36s;
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-@keyframes kenburns {
-  from {
-    transform: scale(1.05) translate3d(0, 0, 0);
-  }
-  to {
-    transform: scale(1.14) translate3d(-1.5%, -1%, 0);
-  }
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
-.kenburns {
-  animation: kenburns 18s ease-out forwards;
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 1.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--brand-line);
+  color: var(--brand-blue);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-@keyframes float-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-float-in {
-  animation: float-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.animate-float-in-delay {
-  animation: float-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
-}
-
-.animate-float-in-delay-2 {
-  animation: float-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+.btn-ghost:hover {
+  background: var(--brand-mist);
+  border-color: color-mix(in srgb, var(--brand-blue) 35%, white);
 }
 
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 40s linear infinite;
+  animation: marquee 42s linear infinite;
 }
 
 @keyframes marquee {
@@ -146,7 +170,31 @@ body {
   }
 }
 
-.nav-blur {
-  backdrop-filter: blur(14px);
-  background: rgba(247, 246, 244, 0.86);
+@keyframes kenburns {
+  from {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.2%, -0.8%, 0);
+  }
+}
+
+.kenburns {
+  animation: kenburns 20s ease-out forwards;
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.05);
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 5s ease-in-out infinite;
 }

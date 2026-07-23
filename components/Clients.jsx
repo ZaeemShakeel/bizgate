@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import Reveal from "./Reveal";
 
 const clients = [
   "01",
@@ -20,30 +23,30 @@ export default function Clients() {
   const loop = [...clients, ...clients];
 
   return (
-    <section id="clients" className="overflow-hidden border-y border-brand-dark/10 bg-brand-fog/40">
+    <section id="clients" className="overflow-hidden border-y border-brand-line bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-        <div className="reveal flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+        <Reveal className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-medium uppercase tracking-[0.22em] text-brand-mid">
-              Our clients
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
+              What our clients love
             </p>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-[-0.02em] text-brand-dark md:text-4xl">
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
               Trusted by hospitality and travel partners across the region.
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-brand-ink/65">
+          <p className="max-w-sm text-sm leading-relaxed text-brand-muted">
             From brand introduction to ongoing sales and marketing support, BizGate partners
             with hotels and tourism brands that want measurable Middle East growth.
           </p>
-        </div>
+        </Reveal>
       </div>
 
       <div className="pb-16 md:pb-20">
-        <div className="marquee-track items-center gap-10 px-5">
+        <div className="marquee-track items-center gap-6 px-5">
           {loop.map((id, index) => (
             <div
               key={`${id}-${index}`}
-              className="relative flex h-20 w-40 shrink-0 items-center justify-center bg-white px-4"
+              className="relative flex h-20 w-44 shrink-0 items-center justify-center rounded-2xl border border-brand-line bg-brand-fog px-4"
             >
               <Image
                 src={`/client${id}.jpg`}
