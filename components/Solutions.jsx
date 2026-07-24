@@ -49,7 +49,7 @@ export default function Solutions() {
   return (
     <section id="solutions" className="relative overflow-hidden mesh-bg">
       <div className="relative mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
-        <Reveal className="max-w-3xl">
+        <Reveal direction="left" className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
             How we help
           </p>
@@ -66,34 +66,36 @@ export default function Solutions() {
             {items.map((item, index) => {
               const isActive = active === index;
               return (
-                <button
-                  key={item.solution}
-                  type="button"
-                  onClick={() => setActive(index)}
-                  className={`w-full rounded-2xl border px-5 py-4 text-left transition ${
-                    isActive
-                      ? "border-brand-blue bg-white shadow-[0_12px_30px_rgba(42,92,170,0.12)]"
-                      : "border-transparent bg-white/50 hover:border-brand-line hover:bg-white"
-                  }`}
-                >
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-muted">
-                    Challenge
-                  </p>
-                  <p className="mt-2 font-display text-lg leading-snug text-brand-ink">{item.problem}</p>
-                </button>
+                <Reveal key={item.solution} direction="left" delay={index * 0.05}>
+                  <motion.button
+                    type="button"
+                    onClick={() => setActive(index)}
+                    whileHover={{ x: 4 }}
+                    className={`w-full rounded-2xl border px-5 py-4 text-left transition ${
+                      isActive
+                        ? "border-brand-blue bg-white shadow-[0_12px_30px_rgba(42,92,170,0.12)]"
+                        : "border-transparent bg-white/50 hover:border-brand-line hover:bg-white"
+                    }`}
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-muted">
+                      Challenge
+                    </p>
+                    <p className="mt-2 font-display text-lg leading-snug text-brand-ink">{item.problem}</p>
+                  </motion.button>
+                </Reveal>
               );
             })}
           </div>
 
-          <Reveal className="relative min-h-[320px] overflow-hidden rounded-[1.75rem] bg-brand-navy p-8 text-white md:p-10">
+          <Reveal direction="right" delay={0.1} className="relative min-h-[320px] overflow-hidden rounded-[1.75rem] bg-brand-navy p-8 text-white md:p-10 lg:sticky lg:top-32 lg:self-start">
             <div className="pointer-events-none absolute -right-10 top-0 h-48 w-48 rounded-full bg-brand-sky/25 blur-3xl" />
             <div className="pointer-events-none absolute bottom-0 left-10 h-40 w-40 rounded-full bg-brand-orange/20 blur-3xl" />
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
+                initial={{ opacity: 0, x: 28 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -18 }}
                 transition={{ duration: 0.35 }}
                 className="relative"
               >

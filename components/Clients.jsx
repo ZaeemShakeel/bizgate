@@ -25,20 +25,22 @@ export default function Clients() {
   return (
     <section id="clients" className="overflow-hidden border-y border-brand-line bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-        <Reveal className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div>
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <Reveal direction="left">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
               What our clients love
             </p>
             <h2 className="mt-4 max-w-2xl font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
               Trusted by hospitality and travel partners across the region.
             </h2>
-          </div>
-          <p className="max-w-sm text-sm leading-relaxed text-brand-muted">
-            From brand introduction to ongoing sales and marketing support, BizGate partners
-            with hotels and tourism brands that want measurable Middle East growth.
-          </p>
-        </Reveal>
+          </Reveal>
+          <Reveal direction="right" delay={0.1}>
+            <p className="max-w-sm text-sm leading-relaxed text-brand-muted">
+              From brand introduction to ongoing sales and marketing support, BizGate partners
+              with hotels and tourism brands that want measurable Middle East growth.
+            </p>
+          </Reveal>
+        </div>
       </div>
 
       <div className="pb-16 md:pb-20">

@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "./Reveal";
 
 const services = [
@@ -30,7 +31,6 @@ const services = [
     ],
     image: "/service-marketing.jpg",
     alt: "Marketing team collaborating on brand strategy",
-    reverse: true,
   },
   {
     id: "advisory",
@@ -57,7 +57,6 @@ const services = [
     ],
     image: "/service-digital.jpg",
     alt: "Digital analytics and transformation tools",
-    reverse: true,
   },
 ];
 
@@ -77,97 +76,129 @@ const extras = [
 ];
 
 export default function Services() {
+  const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return undefined;
+
+    const timer = setInterval(() => {
+      setDirection(1);
+      setActive((prev) => (prev + 1) % services.length);
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, [paused]);
+
+  function goTo(index) {
+    setDirection(index > active ? 1 : -1);
+    setActive(index);
+  }
+
+  const service = services[active];
+
   return (
     <section id="services" className="relative bg-white">
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
             Our services
           </p>
-          <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
             Marketing, representation, advisory, and digital solutions for hospitality.
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-brand-muted md:text-lg">
-            Established in Dubai since 2009 as a boutique tourism consultancy specializing
-            in brand management, management advisory, and digital transformation solutions.
-          </p>
         </Reveal>
 
-        <div className="mt-16 space-y-24 md:mt-24 md:space-y-32">
-          {services.map((service, index) => (
-            <article
-              key={service.id}
-              className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16"
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          {services.map((item, index) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => goTo(index)}
+              className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] transition ${
+                active === index
+                  ? "bg-brand-blue text-white"
+                  : "bg-brand-fog text-brand-muted hover:bg-brand-mist hover:text-brand-blue"
+              }`}
             >
-              <Reveal
-                delay={0.05}
-                className={`relative min-h-[300px] overflow-hidden rounded-[1.75rem] md:min-h-[420px] ${
-                  service.reverse ? "lg:order-2" : ""
-                }`}
-              >
+              0{index + 1} {item.eyebrow.split(" ")[0]}
+            </button>
+          ))}
+        </div>
+
+        <div
+          className="relative mt-8 overflow-hidden rounded-[1.5rem] border border-brand-line bg-white shadow-[0_16px_40px_rgba(26,35,50,0.08)]"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.article
+              key={service.id}
+              custom={direction}
+              initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="grid items-stretch lg:grid-cols-2"
+            >
+              <div className="relative min-h-[240px] overflow-hidden md:min-h-[360px]">
                 <Image
                   src={service.image}
                   alt={service.alt}
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/45 via-transparent to-transparent" />
-                <motion.div
-                  className="absolute bottom-5 left-5 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-blue"
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                >
-                  Growth focused
-                </motion.div>
-              </Reveal>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-brand-ink">
+                  0{active + 1} / 04
+                </div>
+              </div>
 
-              <Reveal delay={0.12} className={service.reverse ? "lg:order-1" : ""}>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-sky">
+              <div className="flex flex-col justify-center p-6 md:p-8 lg:p-10">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
                   {service.eyebrow}
                 </p>
-                <h3 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
+                <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-brand-ink md:text-3xl">
                   {service.title}
                 </h3>
-                <p className="mt-5 text-base leading-relaxed text-brand-muted">{service.copy}</p>
-                <ul className="mt-8 space-y-3">
+                <p className="mt-4 text-sm leading-relaxed text-brand-muted md:text-base">{service.copy}</p>
+                <ul className="mt-5 space-y-2">
                   {service.points.map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-brand-ink/90">
-                      <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-mist text-[10px] font-bold text-brand-blue">
+                    <li key={point} className="flex items-start gap-2.5 text-sm text-brand-ink/90">
+                      <span className="mt-1 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-brand-mist text-[9px] font-bold text-brand-blue">
                         ✓
                       </span>
                       <span>{point}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 flex flex-wrap gap-3">
-                  <a href="#contact" className="btn-primary">
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <a href="#contact" className="btn-primary h-11 px-5">
                     Free consultation
                   </a>
-                  <a href="#solutions" className="btn-ghost">
+                  <a href="#solutions" className="btn-ghost h-11 px-5">
                     See how we help
                   </a>
                 </div>
-                <p className="mt-4 text-xs font-medium uppercase tracking-[0.16em] text-brand-muted">
-                  0{index + 1} / 04
-                </p>
-              </Reveal>
-            </article>
-          ))}
+              </div>
+            </motion.article>
+          </AnimatePresence>
         </div>
 
-        <div id="partners" className="mt-20 grid gap-5 md:grid-cols-3">
+        <div id="partners" className="mt-12 grid gap-4 md:grid-cols-3">
           {extras.map((item, index) => (
             <Reveal
               key={item.title}
               delay={index * 0.08}
-              className="rounded-2xl border border-brand-line bg-brand-fog/70 p-7 transition hover:border-brand-sky/40 hover:bg-white"
+              direction={index === 1 ? "up" : index === 0 ? "left" : "right"}
+              className="rounded-2xl border border-brand-line bg-brand-fog/70 p-5 transition hover:border-brand-sky/40 hover:bg-white"
             >
-              <div className="mb-4 h-1.5 w-10 rounded-full bg-gradient-to-r from-brand-blue to-brand-orange" />
-              <h3 className="font-display text-2xl font-semibold text-brand-ink">{item.title}</h3>
-              <p className="mt-4 text-sm leading-relaxed text-brand-muted">{item.copy}</p>
+              <div className="mb-3 h-1 w-8 rounded-full bg-gradient-to-r from-brand-blue to-brand-orange" />
+              <h3 className="font-display text-xl font-semibold text-brand-ink">{item.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-brand-muted">{item.copy}</p>
             </Reveal>
           ))}
         </div>
