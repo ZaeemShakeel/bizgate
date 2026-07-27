@@ -1,20 +1,21 @@
+import Link from "next/link";
 import Logo from "./Logo";
 
 const serviceLinks = [
-  "Hotel Sales Representation",
-  "Brand & Marketing Management",
-  "Management Advisory",
-  "Digital Transformation",
-  "Offerings",
-  "Flexibility",
+  { label: "Hotel Sales Representation", href: "/#services" },
+  { label: "Brand & Marketing Management", href: "/#services" },
+  { label: "Management Advisory", href: "/#services" },
+  { label: "Digital Transformation", href: "/#services" },
+  { label: "Case Studies", href: "/case-studies" },
 ];
 
 const quickLinks = [
-  { label: "Home", href: "#top" },
-  { label: "About Us", href: "#about" },
-  { label: "Our Services", href: "#services" },
-  { label: "Our Clients", href: "#clients" },
-  { label: "Contacts", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Our Services", href: "/#services" },
+  { label: "How We Help", href: "/#solutions" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "About Us", href: "/#about" },
+  { label: "Contacts", href: "/#contact" },
 ];
 
 export default function Footer() {
@@ -22,7 +23,9 @@ export default function Footer() {
     <footer className="bg-brand-ink text-white">
       <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.3fr_1fr_1fr] md:px-8 md:py-20">
         <div>
-          <Logo variant="light" />
+          <Link href="/" aria-label="BizGate home">
+            <Logo variant="light" />
+          </Link>
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">
             BizGate Marketing &amp; Consultancies — a Dubai-based agency helping hospitality
             and tourism brands grow through sales representation, marketing, PR, advisory,
@@ -45,10 +48,10 @@ export default function Footer() {
           </p>
           <ul className="mt-5 space-y-3">
             {quickLinks.map((link) => (
-              <li key={link.href}>
-                <a href={link.href} className="text-white/75 transition hover:text-white">
+              <li key={link.label}>
+                <Link href={link.href} className="text-white/75 transition hover:text-white">
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -60,8 +63,10 @@ export default function Footer() {
           </p>
           <ul className="mt-5 space-y-3">
             {serviceLinks.map((item) => (
-              <li key={item} className="text-white/75">
-                {item}
+              <li key={item.label}>
+                <Link href={item.href} className="text-white/75 transition hover:text-white">
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>

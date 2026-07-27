@@ -1,0 +1,5 @@
+uploads/*
+!uploads/.gitkeep
+!uploads/case-studies/
+uploads/case-studies/*
+!uploads/case-studies/.gitkeep

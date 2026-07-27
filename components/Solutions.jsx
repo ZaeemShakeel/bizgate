@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "./Reveal";
@@ -108,9 +109,9 @@ export default function Solutions() {
                 <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
                   {items[active].answer}
                 </p>
-                <a href="#contact" className="btn-primary on-dark mt-8">
+                <Link href="/#contact" className="btn-primary on-dark mt-8">
                   Talk to our team
-                </a>
+                </Link>
               </motion.div>
             </AnimatePresence>
           </Reveal>

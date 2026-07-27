@@ -6,6 +6,7 @@ import Solutions from "../components/Solutions";
 import About from "../components/About";
 import Team from "../components/Team";
 import Clients from "../components/Clients";
+import CaseStudies from "../components/CaseStudies";
 import CTA from "../components/CTA";
 import Footer from "../components/Footer";
 
@@ -17,6 +18,7 @@ export default function Home() {
       <TrustBar />
       <Services />
       <Solutions />
+      <CaseStudies />
       <About />
       <Team />
       <Clients />

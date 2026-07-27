@@ -5,12 +5,46 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
 export default function CTA() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-    setSubmitted(true);
+    setError("");
+    setSubmitting(true);
+
+    const form = event.currentTarget;
+    const data = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      phone: form.phone.value.trim(),
+      email: form.email.value.trim(),
+      message: form.message.value.trim(),
+    };
+
+    try {
+      const res = await fetch(`${API_URL}/api/inquiries`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        const payload = await res.json().catch(() => ({}));
+        throw new Error(payload.message || "Could not send your message.");
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err.message || "Could not send your message. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -77,8 +111,8 @@ export default function CTA() {
               <div className="flex min-h-[220px] flex-col justify-center">
                 <p className="font-display text-2xl font-semibold text-brand-blue">Thank you</p>
                 <p className="mt-3 text-sm text-brand-muted">
-                  Your message has been prepared. For now this is a frontend preview —
-                  please also reach us at info@bizgate.info or +971 50 676 0033.
+                  Your consultation request was received. Our team will get back to you soon.
+                  You can also reach us at info@bizgate.info or +971 50 676 0033.
                 </p>
               </div>
             ) : (
@@ -86,6 +120,9 @@ export default function CTA() {
                 <p className="font-display text-xl font-semibold text-brand-ink">
                   Request a consultation
                 </p>
+                {error ? (
+                  <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p>
+                ) : null}
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="block text-sm">
                     <span className="mb-1 block text-xs font-medium text-brand-ink/80">First name *</span>
@@ -131,8 +168,12 @@ export default function CTA() {
                     className="w-full rounded-lg border border-brand-line bg-brand-fog px-3 py-2 outline-none transition focus:border-brand-blue"
                   />
                 </label>
-                <button type="submit" className="btn-primary h-11 w-full sm:w-auto">
-                  Submit
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="btn-primary h-11 w-full sm:w-auto disabled:opacity-60"
+                >
+                  {submitting ? "Sending..." : "Submit"}
                 </button>
               </form>
             )}

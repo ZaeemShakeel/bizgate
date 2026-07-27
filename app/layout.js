@@ -1,4 +1,5 @@
 import { Sora, Manrope } from "next/font/google";
+import FloatingWhatsApp from "../components/FloatingWhatsApp";
 import "./globals.css";
 
 const display = Sora({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${display.variable} ${body.variable} font-body antialiased`}>
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );

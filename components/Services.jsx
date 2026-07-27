@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "./Reveal";
@@ -176,12 +177,12 @@ export default function Services() {
                   ))}
                 </ul>
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <a href="#contact" className="btn-primary h-11 px-5">
+                  <Link href="/#contact" className="btn-primary h-11 px-5">
                     Free consultation
-                  </a>
-                  <a href="#solutions" className="btn-ghost h-11 px-5">
+                  </Link>
+                  <Link href="/#solutions" className="btn-ghost h-11 px-5">
                     See how we help
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.article>

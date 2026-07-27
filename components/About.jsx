@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 
@@ -40,12 +41,12 @@ export default function About() {
               in brand management, management advisory and digital transformation solutions.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="#contact" className="btn-primary h-11 px-5">
+              <Link href="/#contact" className="btn-primary h-11 px-5">
                 Meet the founder
-              </a>
-              <a href="#team" className="btn-ghost h-11 px-5">
+              </Link>
+              <Link href="/#team" className="btn-ghost h-11 px-5">
                 Our professionals
-              </a>
+              </Link>
             </div>
           </Reveal>
 

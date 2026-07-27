@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
@@ -94,12 +95,12 @@ export default function Hero() {
             brands stand out and gain market share.
           </p>
           <div className="hero-actions mt-9 flex flex-wrap items-center gap-4">
-            <a href="#contact" className="btn-primary on-dark">
+            <Link href="/#contact" className="btn-primary on-dark">
               Get a demo
-            </a>
-            <a href="#services" className="btn-secondary">
+            </Link>
+            <Link href="/#services" className="btn-secondary">
               Explore services
-            </a>
+            </Link>
           </div>
           <motion.div
             className="hero-badge mt-10 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/85 backdrop-blur-md"
