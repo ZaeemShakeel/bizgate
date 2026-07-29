@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import CTA from "../../components/CTA";
-import { API_URL, caseStudyHref, clientLabel, demoCaseStudies } from "../../lib/caseStudies";
+import { API_URL, caseStudyHref, clientLabel, demoCaseStudies, mediaUrl } from "../../lib/caseStudies";
 
 const pageFade = {
   hidden: { opacity: 0 },
@@ -213,7 +213,7 @@ export default function CaseStudiesIndexPage() {
                     className="relative h-[440px] overflow-hidden rounded-2xl border border-brand-line/70 shadow-[0_22px_55px_rgba(22,58,107,0.16)]"
                   >
                     <Image
-                      src={item.coverImage || "/hero-hotel.jpg"}
+                      src={mediaUrl(item.coverImage) || "/hero-hotel.jpg"}
                       alt={item.title}
                       fill
                       className="object-cover transition duration-700 group-hover:scale-[1.06]"

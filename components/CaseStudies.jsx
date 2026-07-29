@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
-import { API_URL, caseStudyHref, clientLabel, demoCaseStudies } from "../lib/caseStudies";
+import { API_URL, caseStudyHref, clientLabel, demoCaseStudies, mediaUrl } from "../lib/caseStudies";
 
 export default function CaseStudies({ limit = 3 }) {
   const [cases, setCases] = useState(demoCaseStudies);
@@ -55,7 +55,7 @@ export default function CaseStudies({ limit = 3 }) {
                   className="relative h-[400px] overflow-hidden rounded-2xl border border-brand-line/70 shadow-[0_18px_45px_rgba(22,58,107,0.14)]"
                 >
                   <Image
-                    src={item.coverImage || "/hero-hotel.jpg"}
+                    src={mediaUrl(item.coverImage) || "/hero-hotel.jpg"}
                     alt={item.title}
                     fill
                     className="object-cover transition duration-700 group-hover:scale-105"

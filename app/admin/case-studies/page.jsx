@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import AdminGuard from "../../../components/admin/AdminGuard";
 import AdminShell from "../../../components/admin/AdminShell";
 import { api, uploadFiles } from "../../../lib/adminApi";
-import { caseStudyHref, slugify } from "../../../lib/caseStudies";
+import { caseStudyHref, mediaUrl, slugify } from "../../../lib/caseStudies";
 
 const defaultSections = [
   { title: "The challenge", body: "" },
@@ -631,7 +631,7 @@ function AdminCaseStudiesContent() {
                       {form.coverImage ? (
                         <div className="mt-3 flex items-center gap-3">
                           <div className="relative h-16 w-24 overflow-hidden border border-[var(--brand-line)]">
-                            <Image src={form.coverImage} alt="" fill className="object-cover" />
+                            <Image src={mediaUrl(form.coverImage)} alt="" fill className="object-cover" />
                           </div>
                           <button
                             type="button"
@@ -656,7 +656,7 @@ function AdminCaseStudiesContent() {
                         {form.gallery.map((src) => (
                           <div key={src} className="relative">
                             <div className="relative h-14 w-20 overflow-hidden border border-[var(--brand-line)]">
-                              <Image src={src} alt="" fill className="object-cover" />
+                              <Image src={mediaUrl(src)} alt="" fill className="object-cover" />
                             </div>
                             <button
                               type="button"
@@ -712,7 +712,7 @@ function AdminCaseStudiesContent() {
                             key={src}
                             className="relative h-12 w-12 overflow-hidden border border-[var(--brand-line)] bg-white p-1"
                           >
-                            <Image src={src} alt="" fill className="object-contain" />
+                            <Image src={mediaUrl(src)} alt="" fill className="object-contain" />
                             <button
                               type="button"
                               className="admin-btn admin-btn-danger"

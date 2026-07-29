@@ -15,6 +15,7 @@ import {
   clientLabel,
   demoCaseStudies,
   getCaseSections,
+  mediaUrl,
 } from "../../../../lib/caseStudies";
 
 const ease = [0.22, 1, 0.36, 1];
@@ -273,11 +274,12 @@ export default function CaseStudyDetailPage() {
     );
   }
 
-  const gallery = item.gallery?.length
+  const gallery = (item.gallery?.length
     ? item.gallery
-    : [item.coverImage, "/service-lobby.jpg", "/hero-hotel.jpg"].filter(Boolean);
-  const videos = item.videos || [];
-  const icons = item.icons || [];
+    : [item.coverImage, "/service-lobby.jpg", "/hero-hotel.jpg"].filter(Boolean)
+  ).map((src) => mediaUrl(src));
+  const videos = (item.videos || []).map((src) => mediaUrl(src));
+  const icons = (item.icons || []).map((src) => mediaUrl(src));
   const sections = getCaseSections(item);
   const heroSummary = item.outcome || sections[sections.length - 1]?.body || "";
   const firstSection = sections[0];
@@ -301,7 +303,7 @@ export default function CaseStudyDetailPage() {
           transition={{ duration: 1.35, ease }}
         >
           <Image
-            src={item.coverImage || "/hero-hotel.jpg"}
+            src={mediaUrl(item.coverImage) || "/hero-hotel.jpg"}
             alt={item.title}
             fill
             priority
@@ -500,7 +502,7 @@ export default function CaseStudyDetailPage() {
                     className="group relative block h-56 overflow-hidden rounded-2xl border border-brand-line"
                   >
                     <Image
-                      src={caseItem.coverImage || "/hero-hotel.jpg"}
+                      src={mediaUrl(caseItem.coverImage) || "/hero-hotel.jpg"}
                       alt={caseItem.title}
                       fill
                       className="object-cover transition duration-500 group-hover:scale-105"
