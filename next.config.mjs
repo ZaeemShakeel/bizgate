@@ -10,20 +10,40 @@ let remotePatterns = [
   },
   {
     protocol: "http",
+    hostname: "localhost",
+    port: "5000",
+    pathname: "/api/uploads/**",
+  },
+  {
+    protocol: "http",
     hostname: "127.0.0.1",
     port: "5000",
     pathname: "/uploads/**",
+  },
+  {
+    protocol: "http",
+    hostname: "127.0.0.1",
+    port: "5000",
+    pathname: "/api/uploads/**",
   },
 ];
 
 try {
   const parsed = new URL(apiUrl);
-  remotePatterns.push({
-    protocol: parsed.protocol.replace(":", ""),
-    hostname: parsed.hostname,
-    ...(parsed.port ? { port: parsed.port } : {}),
-    pathname: "/uploads/**",
-  });
+  remotePatterns.push(
+    {
+      protocol: parsed.protocol.replace(":", ""),
+      hostname: parsed.hostname,
+      ...(parsed.port ? { port: parsed.port } : {}),
+      pathname: "/uploads/**",
+    },
+    {
+      protocol: parsed.protocol.replace(":", ""),
+      hostname: parsed.hostname,
+      ...(parsed.port ? { port: parsed.port } : {}),
+      pathname: "/api/uploads/**",
+    }
+  );
 } catch {
   // ignore invalid env during build
 }
