@@ -9,24 +9,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 const highlights = [
   {
-    title: "Consultation",
-    copy: "We manage and assist organisations with their omni-channel marketing initiatives.",
+    title: "Digital Reputation & Guest Experience Intelligence",
+    copy: "Audit, benchmark, and improve your online reputation and guest experience across reviews, search, and AI platforms.",
   },
   {
-    title: "Hotel Representation",
-    copy: "For our international and regional hotels, we provide regional representation.",
+    title: "Tourism Board & Destination Quality Programs",
+    copy: "Strengthen destination reputation through quality monitoring, benchmarking, stakeholder insights, and strategic improvement programs.",
   },
   {
-    title: "Leisure & Retail",
-    copy: "We play an integral role in all sales & marketing strategies, from creation to implementation.",
+    title: "Hotel Group Performance Advisory",
+    copy: "Improve portfolio-wide reputation and guest experience with group reporting, performance insights, action plans, and executive guidance.",
   },
   {
-    title: "Public Relations",
-    copy: "An all-encompassing trade and consumer PR service through editorial coverage.",
+    title: "GCC Market Representation",
+    copy: "Expand your presence across the Gulf through travel-trade sales, B2B engagement, roadshows, FAM trips, and market entry support.",
   },
   {
-    title: "Special Projects",
-    copy: "BizGate offers flexibility to our clients, whether looking for a long-term contract or project support.",
+    title: "Hospitality Technology Partnerships",
+    copy: "Bring hospitality technology to the regional market through sales representation, onboarding, localization, and Arabic-language support.",
   },
 ];
 

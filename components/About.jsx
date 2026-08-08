@@ -41,7 +41,7 @@ export default function About() {
               in brand management, management advisory and digital transformation solutions.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/#contact" className="btn-primary h-11 px-5">
+              <Link href="/founder" className="btn-primary h-11 px-5">
                 Meet the founder
               </Link>
               <Link href="/#team" className="btn-ghost h-11 px-5">
