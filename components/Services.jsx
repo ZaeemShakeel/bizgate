@@ -5,76 +5,106 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Reveal from "./Reveal";
+import { primaryCta } from "../lib/siteContent";
 
 const services = [
   {
-    id: "sales",
-    eyebrow: "Hotel Sales Representation",
-    title: "Regional representation for international and local hotel partners.",
-    copy: "We provide regional representation for our international and regional hotel partners who benefit from our wealth of contacts in the travel trade fraternity. Our sales representatives assist you in driving more business to your hotel, with access to thousands of corporate travel buyers.",
+    id: "reputation",
+    eyebrow: "01 · Digital Reputation",
+    title: "Digital Reputation & Guest Experience Intelligence",
+    copy: "Every review contains information about the guest experience. BizGate helps hotels transform that information into clear operational and commercial priorities.",
     points: [
-      "Corporate travel buyer access",
-      "Travel trade fraternity network",
-      "Market entry and demand generation",
+      "Digital reputation audits and benchmarking",
+      "Guest-sentiment and impact analysis",
+      "Review-response strategy and governance",
+      "Executive reporting and improvement plans",
     ],
-    image: "/service-sales.jpg",
-    alt: "Business team reviewing growth metrics",
-  },
-  {
-    id: "marketing",
-    eyebrow: "Brand & Marketing Management",
-    title: "Omni-channel marketing that elevates brand performance across the GCC.",
-    copy: "We help businesses with their omni-channel marketing efforts, overseeing the overall customer experience and brand performance strategy execution in the GCC region — to enrich brand presence and grow market share.",
-    points: [
-      "Brand performance strategy",
-      "Customer experience oversight",
-      "GCC-focused campaign execution",
-    ],
-    image: "/service-marketing.jpg",
-    alt: "Marketing team collaborating on brand strategy",
-  },
-  {
-    id: "advisory",
-    eyebrow: "Management Advisory",
-    title: "Consulting that supports planning, growth, and operational clarity.",
-    copy: "We offer consulting services designed to assist all types of businesses — from robust financial planning to extensively researched, time-tested advice aimed at improving results and decision-making.",
-    points: [
-      "Business strategy and planning",
-      "Market and demand forecasting",
-      "Financial and management guidance",
-    ],
-    image: "/service-advisory.jpg",
-    alt: "Advisory session in a modern boardroom",
-  },
-  {
-    id: "digital",
-    eyebrow: "Digital Transformation",
-    title: "SaaS and technology solutions for visibility and guest experience.",
-    copy: "We deliver outstanding SaaS applications that improve online visibility, business development, relationship management, digital touchpoints, and customer experience for hospitality operators.",
-    points: [
-      "Online visibility solutions",
-      "Relationship management tools",
-      "Digital guest touchpoints",
-    ],
+    cta: "Request a Reputation Audit →",
     image: "/service-digital.jpg",
-    alt: "Digital analytics and transformation tools",
+    alt: "Digital reputation analytics dashboard",
+  },
+  {
+    id: "destination",
+    eyebrow: "02 · Destination Programs",
+    title: "Destination Reputation & Quality Programs",
+    copy: "BizGate works with tourism authorities to monitor, benchmark and improve hospitality performance across their destinations.",
+    points: [
+      "Destination-wide hotel reputation monitoring",
+      "Guest-sentiment and quality analysis",
+      "Stakeholder and executive reporting",
+      "Hotel engagement, workshops and training",
+    ],
+    cta: "Discuss a Destination Program →",
+    image: "/service-advisory.jpg",
+    alt: "Destination hospitality quality review",
+  },
+  {
+    id: "hotel-group",
+    eyebrow: "03 · Hotel Groups",
+    title: "Hotel Group Performance Advisory",
+    copy: "BizGate helps hotel groups replace fragmented guest-feedback data with a consistent view of performance across their portfolios.",
+    points: [
+      "Group and property-level performance reporting",
+      "Comparative property benchmarking",
+      "Group-wide review-response standards",
+      "Executive summaries and leadership workshops",
+    ],
+    cta: "Book a Hotel Group Consultation →",
+    image: "/service-sales.jpg",
+    alt: "Hotel group performance review",
+  },
+  {
+    id: "mystery-guest",
+    eyebrow: "04 · Mystery Guest",
+    title: "Mystery Guest & Service Quality Audits",
+    copy: "Online reviews reveal how guests perceive their experience. Mystery-guest audits verify what actually happens during that experience and whether service delivery meets operational and brand standards.",
+    points: [
+      "Customized audit criteria and scoring",
+      "Complete guest journey assessments",
+      "Evidence-based reporting and executive summaries",
+      "Corrective action plans, training and follow-up",
+    ],
+    cta: "Discuss a Mystery Guest Audit →",
+    image: "/service-lobby.jpg",
+    alt: "Hotel guest experience assessment",
+  },
+  {
+    id: "gcc",
+    eyebrow: "05 · GCC Market Entry",
+    title: "GCC Market Entry & Representation",
+    copy: "BizGate helps international hotels, destinations and travel companies enter and grow in the GCC through local knowledge, trusted relationships and direct market support.",
+    points: [
+      "Market assessment and entry strategy",
+      "Sales representation and business development",
+      "B2B roadshows, trade events and launch activities",
+      "Local follow-up and market intelligence",
+    ],
+    cta: "Explore GCC Market Representation →",
+    image: "/service-marketing.jpg",
+    alt: "GCC market development meeting",
+  },
+  {
+    id: "hospitality-tech",
+    eyebrow: "06 · Hospitality Technology",
+    title: "Hospitality Technology Market Development",
+    copy: "BizGate helps hospitality technology companies enter and grow across the Middle East through market assessment, regional positioning, business development and local support.",
+    points: [
+      "Market potential and competitor assessment",
+      "Introductions to hotel owners, groups and decision-makers",
+      "Client onboarding and relationship support",
+      "Arabic-language and cultural market support",
+    ],
+    cta: "Discuss Regional Growth Opportunities →",
+    image: "/hero-growth.jpg",
+    alt: "Hospitality technology partnership",
   },
 ];
 
-const extras = [
-  {
-    title: "Offerings",
-    copy: "Hotel sales representation support designed to drive more business through corporate buyers, trade partners, and regional commercial channels.",
-  },
-  {
-    title: "Flexibility",
-    copy: "Understanding customer needs is at the center of what we do. That’s why we offer flexible arrangements — long-term contracts or project-based support.",
-  },
-  {
-    title: "Public Relations",
-    copy: "An all-encompassing trade and consumer PR service through editorial coverage across Arabic and English media.",
-  },
-];
+const training = {
+  title: "On-Site Training, Management Meetings & Executive Workshops",
+  copy: "BizGate has conducted extensive on-site training, management meetings and executive workshops for hotels, hotel groups, tourism organizations and industry partners — turning insight into action with the people responsible for performance.",
+  cta: "Discuss an On-Site Training or Management Session →",
+};
 
 export default function Services() {
   const [active, setActive] = useState(0);
@@ -87,7 +117,7 @@ export default function Services() {
     const timer = setInterval(() => {
       setDirection(1);
       setActive((prev) => (prev + 1) % services.length);
-    }, 2000);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, [paused]);
@@ -103,12 +133,16 @@ export default function Services() {
     <section id="services" className="relative bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-            Our services
-          </p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">03 · Services</p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
-            Marketing, representation, advisory, and digital solutions for hospitality.
+            Hospitality Insight, Regional Expertise and Practical Execution.
           </h2>
+          <p className="mt-4 text-base leading-relaxed text-brand-muted">
+            BizGate helps hospitality and tourism organizations strengthen their reputation,
+            understand guest experience and grow across Middle Eastern markets. Clients may engage
+            us for a focused assignment or combine several services into a long-term advisory
+            program.
+          </p>
         </Reveal>
 
         <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -123,7 +157,7 @@ export default function Services() {
                   : "bg-brand-fog text-brand-muted hover:bg-brand-mist hover:text-brand-blue"
               }`}
             >
-              0{index + 1} {item.eyebrow.split(" ")[0]}
+              0{index + 1}
             </button>
           ))}
         </div>
@@ -154,7 +188,7 @@ export default function Services() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-brand-ink">
-                  0{active + 1} / 04
+                  0{active + 1} / 06
                 </div>
               </div>
 
@@ -165,7 +199,9 @@ export default function Services() {
                 <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-brand-ink md:text-3xl">
                   {service.title}
                 </h3>
-                <p className="mt-4 text-sm leading-relaxed text-brand-muted md:text-base">{service.copy}</p>
+                <p className="mt-4 text-sm leading-relaxed text-brand-muted md:text-base">
+                  {service.copy}
+                </p>
                 <ul className="mt-5 space-y-2">
                   {service.points.map((point) => (
                     <li key={point} className="flex items-start gap-2.5 text-sm text-brand-ink/90">
@@ -178,10 +214,7 @@ export default function Services() {
                 </ul>
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link href="/#contact" className="btn-primary h-11 px-5">
-                    Free consultation
-                  </Link>
-                  <Link href="/#solutions" className="btn-ghost h-11 px-5">
-                    See how we help
+                    {service.cta}
                   </Link>
                 </div>
               </div>
@@ -189,20 +222,25 @@ export default function Services() {
           </AnimatePresence>
         </div>
 
-        <div id="partners" className="mt-12 grid gap-4 md:grid-cols-3">
-          {extras.map((item, index) => (
-            <Reveal
-              key={item.title}
-              delay={index * 0.08}
-              direction={index === 1 ? "up" : index === 0 ? "left" : "right"}
-              className="rounded-2xl border border-brand-line bg-brand-fog/70 p-5 transition hover:border-brand-sky/40 hover:bg-white"
-            >
-              <div className="mb-3 h-1 w-8 rounded-full bg-gradient-to-r from-brand-blue to-brand-orange" />
-              <h3 className="font-display text-xl font-semibold text-brand-ink">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-brand-muted">{item.copy}</p>
-            </Reveal>
-          ))}
-        </div>
+        <Reveal delay={0.08} className="mt-12 rounded-2xl border border-brand-line bg-brand-fog/70 p-6 md:p-8">
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
+            Training &amp; Workshops
+          </p>
+          <h3 className="mt-3 font-display text-2xl font-semibold tracking-[-0.03em] text-brand-ink md:text-3xl">
+            {training.title}
+          </h3>
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-brand-muted md:text-base">
+            {training.copy}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/#contact" className="btn-primary h-11 px-5">
+              {training.cta}
+            </Link>
+            <Link href="/#contact" className="btn-ghost h-11 px-5">
+              {primaryCta}
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

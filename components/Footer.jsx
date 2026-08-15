@@ -1,22 +1,13 @@
 import Link from "next/link";
 import Logo from "./Logo";
+import { contactDetails, serviceNavItems } from "../lib/siteContent";
 
-const serviceLinks = [
-  { label: "Hotel Sales Representation", href: "/#services" },
-  { label: "Brand & Marketing Management", href: "/#services" },
-  { label: "Management Advisory", href: "/#services" },
-  { label: "Digital Transformation", href: "/#services" },
-  { label: "Case Studies", href: "/case-studies" },
-];
-
-const quickLinks = [
-  { label: "Home", href: "/" },
-  { label: "Our Services", href: "/#services" },
-  { label: "How We Help", href: "/#solutions" },
-  { label: "Case Studies", href: "/case-studies" },
+const companyLinks = [
+  { label: "About BizGate", href: "/#about" },
   { label: "Founder", href: "/founder" },
-  { label: "About Us", href: "/#about" },
-  { label: "Contacts", href: "/#contact" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
@@ -28,27 +19,28 @@ export default function Footer() {
             <Logo variant="light" />
           </Link>
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">
-            BizGate Marketing &amp; Consultancies — a Dubai-based agency helping hospitality
-            and tourism brands grow through sales representation, marketing, PR, advisory,
-            and digital transformation.
+            BizGate Marketing &amp; Consultancies — a specialist hospitality and tourism
+            consultancy for digital reputation, guest experience intelligence, service quality
+            and Middle East market growth.
           </p>
           <div className="mt-6 space-y-2 text-sm text-white/70">
-            <p>Maktoum Road, Golden Building — Dubai</p>
-            <a href="tel:+971506760033" className="block hover:text-white">
-              +971 50 676 0033
+            <p>{contactDetails.address}</p>
+            <p>{contactDetails.poBox}</p>
+            <a href={contactDetails.phoneHref} className="block hover:text-white">
+              {contactDetails.phone}
             </a>
-            <a href="mailto:info@bizgate.info" className="block hover:text-white">
-              info@bizgate.info
+            <a href={`mailto:${contactDetails.email}`} className="block hover:text-white">
+              {contactDetails.email}
             </a>
           </div>
         </div>
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
-            Quick links
+            Company
           </p>
           <ul className="mt-5 space-y-3">
-            {quickLinks.map((link) => (
+            {companyLinks.map((link) => (
               <li key={link.label}>
                 <Link href={link.href} className="text-white/75 transition hover:text-white">
                   {link.label}
@@ -60,10 +52,10 @@ export default function Footer() {
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-sky">
-            Our services
+            Services
           </p>
           <ul className="mt-5 space-y-3">
-            {serviceLinks.map((item) => (
+            {serviceNavItems.map((item) => (
               <li key={item.label}>
                 <Link href={item.href} className="text-white/75 transition hover:text-white">
                   {item.label}
@@ -76,8 +68,18 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-sm text-white/55 md:flex-row md:items-center md:justify-between md:px-8">
-          <p>© 2009–{new Date().getFullYear()} By BizGate. All Rights Reserved.</p>
-          <p>Call us for any question or concern</p>
+          <p>
+            © 2026 BizGate Marketing &amp; Consultancies. All rights reserved. Operating since
+            2008 · Rebranded in 2010 · Dubai, UAE
+          </p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="hover:text-white">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="hover:text-white">
+              Terms of Use
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

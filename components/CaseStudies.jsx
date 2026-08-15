@@ -34,14 +34,15 @@ export default function CaseStudies({ limit = 3 }) {
       <div className="relative mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-orange">
-            Case studies
+            Case Studies
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
-            Proven work. Clear outcomes. Real hospitality growth.
+            Regional Experience in Action.
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg">
-            Explore how BizGate helps hotels and tourism brands solve market challenges
-            across sales, marketing, advisory, and digital transformation.
+            BizGate works with tourism authorities, hotel groups and hospitality technology
+            companies to turn market knowledge, guest feedback and performance data into practical
+            action.
           </p>
         </Reveal>
 

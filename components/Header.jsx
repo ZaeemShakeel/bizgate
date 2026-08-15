@@ -4,19 +4,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
+import { primaryCta, serviceNavItems } from "../lib/siteContent";
 
 const links = [
-  { label: "Our Services", href: "/#services" },
-  { label: "How We Help", href: "/#solutions" },
+  { label: "About BizGate", href: "/#about" },
   { label: "Case Studies", href: "/case-studies" },
-  { label: "Founder", href: "/founder" },
-  { label: "About Us", href: "/#about" },
-  { label: "Contacts", href: "/#contact" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -40,13 +40,13 @@ export default function Header() {
         <div className="bg-brand-navy text-white">
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-5 text-sm md:px-8">
             <p className="truncate text-white/85">
-              Dubai hospitality growth partner — sales, marketing, advisory &amp; digital.
+              Hospitality reputation, guest experience &amp; regional growth · Dubai
             </p>
             <Link
               href="/#contact"
               className="shrink-0 font-semibold text-brand-orange hover:text-white"
             >
-              Get a demo →
+              {primaryCta} →
             </Link>
           </div>
         </div>
@@ -63,7 +63,56 @@ export default function Header() {
               <Logo variant={solid ? "dark" : "light"} />
             </Link>
 
-            <nav className="hidden items-center gap-7 xl:flex">
+            <nav className="hidden items-center gap-6 xl:flex">
+              <Link
+                href="/"
+                className={`text-[0.92rem] font-medium tracking-wide transition-colors ${
+                  solid
+                    ? "text-brand-ink/75 hover:text-brand-blue"
+                    : "text-white/85 hover:text-white"
+                }`}
+              >
+                Home
+              </Link>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <Link
+                  href="/#services"
+                  className={`inline-flex items-center gap-1 text-[0.92rem] font-medium tracking-wide transition-colors ${
+                    solid
+                      ? "text-brand-ink/75 hover:text-brand-blue"
+                      : "text-white/85 hover:text-white"
+                  }`}
+                >
+                  Services
+                  <span className="text-[10px] opacity-70">▾</span>
+                </Link>
+                <AnimatePresence>
+                  {servicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="absolute left-0 top-full z-50 mt-3 w-72 rounded-2xl border border-brand-line bg-white p-2 shadow-[0_16px_40px_rgba(26,35,50,0.12)]"
+                    >
+                      {serviceNavItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="block rounded-xl px-3 py-2.5 text-sm text-brand-ink/85 transition hover:bg-brand-fog hover:text-brand-blue"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               {links.map((link) => (
                 <Link
                   key={link.href}
@@ -77,6 +126,17 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
+
+              <Link
+                href="/founder"
+                className={`text-[0.92rem] font-medium tracking-wide transition-colors ${
+                  solid
+                    ? "text-brand-ink/60 hover:text-brand-blue"
+                    : "text-white/65 hover:text-white"
+                }`}
+              >
+                Founder
+              </Link>
             </nav>
 
             <div className="hidden items-center gap-4 lg:flex">
@@ -88,7 +148,7 @@ export default function Header() {
                     : "bg-white text-brand-blue hover:bg-brand-mist"
                 }`}
               >
-                Free consultation
+                {primaryCta}
               </Link>
             </div>
 
@@ -129,9 +189,23 @@ export default function Header() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="fixed inset-0 top-[calc(2.25rem+4rem)] z-[55] bg-white md:top-[calc(2.25rem+4.25rem)] xl:hidden"
+            className="fixed inset-0 top-[calc(2.25rem+4rem)] z-[55] overflow-y-auto bg-white md:top-[calc(2.25rem+4.25rem)] xl:hidden"
           >
-            <div className="flex h-full flex-col gap-1 px-6 py-8">
+            <div className="flex flex-col gap-1 px-6 py-8">
+              <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
+              >
+                Home
+              </Link>
+              <Link
+                href="/#services"
+                onClick={() => setOpen(false)}
+                className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
+              >
+                Services
+              </Link>
               {links.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -149,11 +223,18 @@ export default function Header() {
                 </motion.div>
               ))}
               <Link
+                href="/founder"
+                onClick={() => setOpen(false)}
+                className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
+              >
+                Founder
+              </Link>
+              <Link
                 href="/#contact"
                 onClick={() => setOpen(false)}
                 className="btn-primary mt-8"
               >
-                Free consultation
+                {primaryCta}
               </Link>
             </div>
           </motion.div>

@@ -1,18 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
-
-const rotatingWords = ["boost", "edge", "growth", "presence", "future"];
+import { primaryCta } from "../lib/siteContent";
 
 export default function Hero() {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
-  const [displayText, setDisplayText] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useLayoutEffect(() => {
     const video = videoRef.current;
@@ -33,31 +29,6 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    const currentWord = rotatingWords[wordIndex];
-    const typingSpeed = isDeleting ? 45 : 95;
-    const pauseAtEnd = 1600;
-
-    let timeout;
-
-    if (!isDeleting && displayText === currentWord) {
-      timeout = setTimeout(() => setIsDeleting(true), pauseAtEnd);
-    } else if (isDeleting && displayText === "") {
-      setIsDeleting(false);
-      setWordIndex((prev) => (prev + 1) % rotatingWords.length);
-    } else {
-      timeout = setTimeout(() => {
-        setDisplayText((prev) =>
-          isDeleting
-            ? currentWord.slice(0, Math.max(0, prev.length - 1))
-            : currentWord.slice(0, prev.length + 1)
-        );
-      }, typingSpeed);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, wordIndex]);
-
   return (
     <section id="top" ref={rootRef} className="relative min-h-[100svh] overflow-hidden">
       <div className="absolute inset-0">
@@ -77,38 +48,37 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-16 pt-44 md:px-8 md:pb-24 lg:justify-center lg:pb-20">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <p className="hero-eyebrow mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-white/75">
-            Welcome to BizGate
+            Hospitality Reputation &amp; Growth · Middle East
           </p>
           <h1 className="hero-title font-display text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-5xl lg:text-[3.6rem]">
-            We give your company and brand a{" "}
-            <span className="inline italic text-[#5eb3f0] underline decoration-[#3498db] decoration-[3px] underline-offset-[10px] md:underline-offset-[12px]">
-              {displayText}
-              <span className="ml-0.5 inline-block h-[0.9em] w-[2px] animate-pulse bg-[#5eb3f0] align-[-0.05em]" />
-            </span>
-            .
+            Stronger Reputation. Better Guest Experience. Smarter Regional Growth.
           </h1>
-          <p className="hero-copy mt-6 max-w-xl text-base leading-relaxed text-white/82 md:text-lg">
-            A dynamic marketing and consultancy agency in Dubai — focused on the
-            future of travel, connected to the travel trade, and helping hospitality
-            brands stand out and gain market share.
+          <p className="hero-copy mt-6 max-w-2xl text-base leading-relaxed text-white/82 md:text-lg">
+            BizGate is a Dubai-based hospitality and tourism consultancy helping hotels,
+            resorts, hotel groups, tourism authorities and hospitality technology companies
+            strengthen digital reputation, improve guest experience and grow across the Middle
+            East.
           </p>
           <div className="hero-actions mt-9 flex flex-wrap items-center gap-4">
             <Link href="/#contact" className="btn-primary on-dark">
-              Get a demo
+              {primaryCta} →
             </Link>
             <Link href="/#services" className="btn-secondary">
-              Explore services
+              Explore Our Services
             </Link>
           </div>
           <motion.div
-            className="hero-badge mt-10 inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white/85 backdrop-blur-md"
+            className="hero-badge mt-10 inline-flex max-w-2xl flex-wrap items-center gap-x-3 gap-y-1 rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm text-white/85 backdrop-blur-md"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span className="h-2 w-2 rounded-full bg-brand-orange" />
-            Empowering hospitality brands across the UAE &amp; GCC
+            <span className="h-2 w-2 shrink-0 rounded-full bg-brand-orange" />
+            <span>
+              Digital-reputation expertise since 2008 · Founder-led · 28 years in travel and
+              tourism
+            </span>
           </motion.div>
         </div>
       </div>

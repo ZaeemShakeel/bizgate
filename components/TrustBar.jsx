@@ -9,24 +9,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 const highlights = [
   {
-    title: "Digital Reputation & Guest Experience Intelligence",
-    copy: "Audit, benchmark, and improve your online reputation and guest experience across reviews, search, and AI platforms.",
+    numeral: "i",
+    title: "Hotels, Resorts and Hotel Groups",
+    copy: "Turn guest feedback into practical priorities, improve review-response performance and create consistent visibility across properties.",
   },
   {
-    title: "Tourism Board & Destination Quality Programs",
-    copy: "Strengthen destination reputation through quality monitoring, benchmarking, stakeholder insights, and strategic improvement programs.",
+    numeral: "ii",
+    title: "Tourism Authorities and Destinations",
+    copy: "Monitor and benchmark hospitality quality across an entire destination, supported by executive reporting and stakeholder engagement.",
   },
   {
-    title: "Hotel Group Performance Advisory",
-    copy: "Improve portfolio-wide reputation and guest experience with group reporting, performance insights, action plans, and executive guidance.",
+    numeral: "iii",
+    title: "Hospitality Technology Companies",
+    copy: "Enter, localize and grow in the region through market development, sales representation, client onboarding and local support.",
   },
   {
-    title: "GCC Market Representation",
-    copy: "Expand your presence across the Gulf through travel-trade sales, B2B engagement, roadshows, FAM trips, and market entry support.",
-  },
-  {
-    title: "Hospitality Technology Partnerships",
-    copy: "Bring hospitality technology to the regional market through sales representation, onboarding, localization, and Arabic-language support.",
+    numeral: "iv",
+    title: "International Brands Entering the GCC",
+    copy: "Build the relationships, positioning and route to market required for sustainable regional growth.",
   },
 ];
 
@@ -70,27 +70,29 @@ export default function TrustBar() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div className="max-w-3xl">
           <p className="welcome-eyebrow text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-            Ahlan Wa Sahlan — Welcome
+            01
           </p>
           <h2 className="welcome-title mt-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
-            Focused on the future of travel. Connected to the travel trade.
+            Who We Help
           </h2>
           <p className="welcome-copy mt-5 text-base leading-relaxed text-white/72 md:text-lg">
-            We possess extensive knowledge of the Middle East market and its key leaders —
-            proud to be recognized for success stories that help our clients’ brands stand
-            out and gain market share.
+            A focused practice for the people who shape demand and protect reputation in Middle
+            East hospitality.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {highlights.map((item) => (
             <motion.div
-              key={item.title}
+              key={item.numeral}
               className="trust-card rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
               whileHover={{ y: -6, backgroundColor: "rgba(255,255,255,0.1)" }}
               transition={{ duration: 0.25 }}
             >
-              <h3 className="font-display text-lg font-semibold text-white">{item.title}</h3>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-sky">
+                {item.numeral}
+              </p>
+              <h3 className="mt-3 font-display text-lg font-semibold text-white">{item.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-white/68">{item.copy}</p>
             </motion.div>
           ))}
