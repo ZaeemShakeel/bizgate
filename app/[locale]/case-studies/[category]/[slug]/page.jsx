@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "../../../../../i18n/routing";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import Header from "../../../../components/Header";
-import Footer from "../../../../components/Footer";
-import CTA from "../../../../components/CTA";
-import Reveal from "../../../../components/Reveal";
+import Header from "../../../../../components/Header";
+import Footer from "../../../../../components/Footer";
+import CTA from "../../../../../components/CTA";
+import Reveal from "../../../../../components/Reveal";
 import {
   API_URL,
   caseStudyHref,
@@ -16,7 +16,9 @@ import {
   demoCaseStudies,
   getCaseSections,
   mediaUrl,
-} from "../../../../lib/caseStudies";
+} from "../../../../../lib/caseStudies";
+
+import { useLocale } from "next-intl";
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -37,6 +39,7 @@ const heroItem = {
 
 function GalleryScroller({ images, title, onOpen }) {
   const loop = useMemo(() => [...images, ...images], [images]);
+  const locale = useLocale();
 
   if (!images.length) return null;
 
@@ -44,10 +47,10 @@ function GalleryScroller({ images, title, onOpen }) {
     <div className="mt-10">
       <div className="mb-4 flex items-center justify-between gap-4">
         <p className="text-sm text-brand-muted">
-          Auto-scrolling gallery — click any image to view larger.
+          {locale === "ar" ? "معرض الصور التلقائي — انقر على أي صورة للتكبير." : "Auto-scrolling gallery — click any image to view larger."}
         </p>
         <span className="rounded-full bg-brand-fog px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-blue">
-          Click to view
+          {locale === "ar" ? "انقر للعرض" : "Click to view"}
         </span>
       </div>
 
@@ -74,7 +77,7 @@ function GalleryScroller({ images, title, onOpen }) {
                 />
                 <div className="absolute inset-0 bg-black/0 transition group-hover:bg-black/25" />
                 <span className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 text-left text-xs font-semibold uppercase tracking-[0.14em] text-white opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">
-                  Click to view
+                  {locale === "ar" ? "انقر للعرض" : "Click to view"}
                 </span>
               </button>
             );
@@ -88,6 +91,7 @@ function GalleryScroller({ images, title, onOpen }) {
 function Lightbox({ images, index, onClose, onChange }) {
   const src = images[index];
   const total = images.length;
+  const locale = useLocale();
 
   useEffect(() => {
     const onKey = (event) => {
@@ -163,7 +167,7 @@ function Lightbox({ images, index, onClose, onChange }) {
           onClick={onClose}
           className="absolute right-4 top-4 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md transition hover:bg-white/25"
         >
-          Close
+          {locale === "ar" ? "إغلاق" : "Close"}
         </button>
 
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-white/15 px-4 py-1.5 text-xs font-semibold text-white backdrop-blur-md">
@@ -178,6 +182,7 @@ export default function CaseStudyDetailPage() {
   const params = useParams();
   const category = params?.category;
   const slug = params?.slug;
+  const locale = useLocale();
   const [item, setItem] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -261,12 +266,12 @@ export default function CaseStudyDetailPage() {
       <main className="min-h-screen bg-brand-fog">
         <Header />
         <div className="mx-auto max-w-3xl px-5 pb-24 pt-40 text-center md:px-8">
-          <h1 className="font-display text-4xl font-semibold text-brand-ink">Case study not found</h1>
+          <h1 className="font-display text-4xl font-semibold text-brand-ink">{locale === "ar" ? "دراسة الحالة غير موجودة" : "Case study not found"}</h1>
           <p className="mt-4 text-brand-muted">
-            This case may be inactive or the link is incorrect.
+            {locale === "ar" ? "قد تكون دراسة الحالة هذه غير نشطة أو الرابط غير صحيح." : "This case may be inactive or the link is incorrect."}
           </p>
           <Link href="/case-studies" className="btn-primary mt-8 inline-flex">
-            Back to case studies
+            {locale === "ar" ? "العودة إلى دراسات الحالة" : "Back to case studies"}
           </Link>
         </div>
         <Footer />
@@ -280,8 +285,12 @@ export default function CaseStudyDetailPage() {
   ).map((src) => mediaUrl(src));
   const videos = (item.videos || []).map((src) => mediaUrl(src));
   const icons = (item.icons || []).map((src) => mediaUrl(src));
-  const sections = getCaseSections(item);
-  const heroSummary = item.outcome || sections[sections.length - 1]?.body || "";
+  
+  // Conditionally use Arabic or English fields
+  const title = locale === "ar" ? item.title_ar || item.title : item.title;
+  const sections = getCaseSections(item, locale);
+  const heroSummary = locale === "ar" ? item.outcome_ar || sections[sections.length - 1]?.body || "" : item.outcome || sections[sections.length - 1]?.body || "";
+  
   const firstSection = sections[0];
   const restSections = sections.slice(1);
 
@@ -304,7 +313,7 @@ export default function CaseStudyDetailPage() {
         >
           <Image
             src={mediaUrl(item.coverImage) || "/hero-hotel.jpg"}
-            alt={item.title}
+            alt={title}
             fill
             priority
             className="object-cover"
@@ -325,14 +334,14 @@ export default function CaseStudyDetailPage() {
               href={item.categorySlug ? `/case-studies/${item.categorySlug}` : "/case-studies"}
               className="mb-8 inline-flex w-fit text-sm font-semibold text-white/75 transition hover:text-white"
             >
-              ← {item.category || "All case studies"}
+              {locale === "ar" ? "← دراسات الحالة" : "← All case studies"}
             </Link>
           </motion.div>
           <motion.div
             variants={heroItem}
             className="inline-flex w-fit rounded-full bg-white/12 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur"
           >
-            {item.category || "BizGate Case Study"}
+            {item.category || (locale === "ar" ? "حالة بيزجيت" : "BizGate Case Study")}
           </motion.div>
           <motion.p
             variants={heroItem}
@@ -344,7 +353,7 @@ export default function CaseStudyDetailPage() {
             variants={heroItem}
             className="mt-4 max-w-4xl font-display text-4xl font-semibold tracking-[-0.03em] text-white md:text-6xl"
           >
-            {item.title}
+            {title}
           </motion.h1>
           {heroSummary ? (
             <motion.p
@@ -356,10 +365,10 @@ export default function CaseStudyDetailPage() {
           ) : null}
           <motion.div variants={heroItem} className="mt-8 flex flex-wrap gap-3">
             <a href="#story" className="btn-primary on-dark">
-              Read the full story
+              {locale === "ar" ? "قراءة القصة كاملة" : "Read the full story"}
             </a>
             <Link href="/#contact" className="btn-secondary">
-              Talk to BizGate
+              {locale === "ar" ? "تحدث إلى بيزجيت" : "Talk to BizGate"}
             </Link>
           </motion.div>
         </motion.div>
@@ -369,37 +378,37 @@ export default function CaseStudyDetailPage() {
         <div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-              Section 01
+              {locale === "ar" ? "القسم 01" : "Section 01"}
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
-              {firstSection?.title || "What the client needed to solve."}
+              {firstSection?.title || (locale === "ar" ? "ما احتاج العميل حله." : "What the client needed to solve.")}
             </h2>
-            <p className="mt-6 text-base leading-relaxed text-brand-muted md:text-lg">
+            <p className="mt-6 text-base leading-relaxed text-brand-muted md:text-lg whitespace-pre-line">
               {firstSection?.body}
             </p>
           </Reveal>
 
           <Reveal delay={0.08} className="border border-brand-line bg-brand-fog p-7 md:p-9">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-teal">
-              Client snapshot
+              {locale === "ar" ? "نظرة على العميل" : "Client snapshot"}
             </p>
             <div className="mt-6 space-y-5">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Client
+                  {locale === "ar" ? "العميل" : "Client"}
                 </p>
                 <p className="mt-2 font-display text-2xl text-brand-ink">{clientLabel(item)}</p>
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                  Category
+                  {locale === "ar" ? "الفئة" : "Category"}
                 </p>
                 <p className="mt-2 text-brand-ink/85">{item.category || "General"}</p>
               </div>
               {icons.length ? (
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-muted">
-                    Icons / marks
+                    {locale === "ar" ? "أيقونات / علامات" : "Icons / marks"}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-3">
                     {icons.map((src) => (
@@ -436,7 +445,7 @@ export default function CaseStudyDetailPage() {
                     isAccent ? "text-brand-orange" : "text-brand-orange"
                   }`}
                 >
-                  Section {index + 2}
+                  {locale === "ar" ? `القسم 0${index + 2}` : `Section 0${index + 2}`}
                 </p>
                 <h2
                   className={`mt-4 max-w-3xl font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl ${
@@ -446,7 +455,7 @@ export default function CaseStudyDetailPage() {
                   {section.title}
                 </h2>
                 <p
-                  className={`mt-6 max-w-4xl text-base leading-relaxed md:text-lg ${
+                  className={`mt-6 max-w-4xl text-base leading-relaxed md:text-lg whitespace-pre-line ${
                     isAccent ? "text-white/75" : "text-brand-muted"
                   }`}
                 >
@@ -462,10 +471,10 @@ export default function CaseStudyDetailPage() {
         <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-              Supporting visuals
+              {locale === "ar" ? "صور ومواد داعمة" : "Supporting visuals"}
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold text-brand-ink md:text-4xl">
-              Screenshots, photos, and media from the engagement.
+              {locale === "ar" ? "لقطات شاشة، وصور، ومواد من المشروع." : "Screenshots, photos, and media from the engagement."}
             </h2>
           </Reveal>
 
@@ -493,7 +502,7 @@ export default function CaseStudyDetailPage() {
       {related.length ? (
         <section className="border-t border-brand-line bg-brand-fog">
           <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-            <h2 className="font-display text-3xl font-semibold text-brand-ink">More BizGate cases</h2>
+            <h2 className="font-display text-3xl font-semibold text-brand-ink">{locale === "ar" ? "المزيد من دراسات حالة بيزجيت" : "More BizGate cases"}</h2>
             <div className="mt-8 grid gap-6 md:grid-cols-2">
               {related.map((caseItem, index) => (
                 <Reveal key={caseItem.slug} delay={index * 0.08}>
@@ -503,7 +512,7 @@ export default function CaseStudyDetailPage() {
                   >
                     <Image
                       src={mediaUrl(caseItem.coverImage) || "/hero-hotel.jpg"}
-                      alt={caseItem.title}
+                      alt={locale === "ar" ? caseItem.title_ar || caseItem.title : caseItem.title}
                       fill
                       className="object-cover transition duration-500 group-hover:scale-105"
                       sizes="50vw"
@@ -514,7 +523,9 @@ export default function CaseStudyDetailPage() {
                       <p className="text-xs uppercase tracking-[0.16em] text-brand-orange">
                         {caseItem.category || clientLabel(caseItem)}
                       </p>
-                      <p className="mt-1 font-display text-xl font-semibold">{caseItem.title}</p>
+                      <p className="mt-1 font-display text-xl font-semibold">
+                        {locale === "ar" ? caseItem.title_ar || caseItem.title : caseItem.title}
+                      </p>
                     </div>
                   </Link>
                 </Reveal>

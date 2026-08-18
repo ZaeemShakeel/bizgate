@@ -1,22 +1,28 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
 import { primaryCta, serviceNavItems } from "../lib/siteContent";
-
-const links = [
-  { label: "About BizGate", href: "/#about" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Insights", href: "/insights" },
-  { label: "Contact", href: "/#contact" },
-];
+import { useTranslations, useLocale } from 'next-intl';
+import { Link, usePathname, useRouter } from '../i18n/routing';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  
+  const t = useTranslations('Header');
+  const locale = useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const links = [
+    { label: t('about'), href: "/#about" },
+    { label: t('caseStudies'), href: "/case-studies" },
+    { label: t('insights'), href: "/insights" },
+    { label: t('contact'), href: "/#contact" },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -34,6 +40,11 @@ export default function Header() {
 
   const solid = scrolled || open;
 
+  const toggleLanguage = () => {
+    const nextLocale = locale === 'en' ? 'ar' : 'en';
+    router.replace(pathname, { locale: nextLocale });
+  };
+
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-[60]">
@@ -42,12 +53,17 @@ export default function Header() {
             <p className="truncate text-white/85">
               Hospitality reputation, guest experience &amp; regional growth · Dubai
             </p>
-            <Link
-              href="/#contact"
-              className="shrink-0 font-semibold text-brand-orange hover:text-white"
-            >
-              {primaryCta} →
-            </Link>
+            <div className="flex items-center gap-4">
+              <button onClick={toggleLanguage} className="text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white transition">
+                {locale === 'en' ? 'العربية' : 'English'}
+              </button>
+              <Link
+                href="/#contact"
+                className="shrink-0 font-semibold text-brand-orange hover:text-white"
+              >
+                {t('primaryCta')} →
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -72,7 +88,7 @@ export default function Header() {
                     : "text-white/85 hover:text-white"
                 }`}
               >
-                Home
+                {t('home')}
               </Link>
 
               <div
@@ -88,7 +104,7 @@ export default function Header() {
                       : "text-white/85 hover:text-white"
                   }`}
                 >
-                  Services
+                  {t('services')}
                   <span className="text-[10px] opacity-70">▾</span>
                 </Link>
                 <AnimatePresence>
@@ -105,6 +121,7 @@ export default function Header() {
                           href={item.href}
                           className="block rounded-xl px-3 py-2.5 text-sm text-brand-ink/85 transition hover:bg-brand-fog hover:text-brand-blue"
                         >
+                          {/* Note: In a real scenario, serviceNavItems should also be translated */}
                           {item.label}
                         </Link>
                       ))}
@@ -135,7 +152,7 @@ export default function Header() {
                     : "text-white/65 hover:text-white"
                 }`}
               >
-                Founder
+                {t('founder')}
               </Link>
             </nav>
 
@@ -148,37 +165,42 @@ export default function Header() {
                     : "bg-white text-brand-blue hover:bg-brand-mist"
                 }`}
               >
-                {primaryCta}
+                {t('primaryCta')}
               </Link>
             </div>
 
-            <button
-              type="button"
-              aria-label="Toggle menu"
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
-              className={`relative z-10 flex h-10 w-10 items-center justify-center rounded-full border xl:hidden ${
-                solid ? "border-brand-line text-brand-blue" : "border-white/30 text-white"
-              }`}
-            >
-              <div className="flex w-5 flex-col gap-1.5">
-                <span
-                  className={`h-0.5 w-full rounded-full bg-current transition-transform ${
-                    open ? "translate-y-2 rotate-45" : ""
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full rounded-full bg-current transition-opacity ${
-                    open ? "opacity-0" : ""
-                  }`}
-                />
-                <span
-                  className={`h-0.5 w-full rounded-full bg-current transition-transform ${
-                    open ? "-translate-y-2 -rotate-45" : ""
-                  }`}
-                />
-              </div>
-            </button>
+            <div className="flex items-center gap-3 xl:hidden relative z-10">
+              <button onClick={toggleLanguage} className={`text-xs font-semibold uppercase tracking-widest transition ${solid ? "text-brand-ink/80" : "text-white/80 hover:text-white"}`}>
+                {locale === 'en' ? 'العربية' : 'EN'}
+              </button>
+              <button
+                type="button"
+                aria-label="Toggle menu"
+                aria-expanded={open}
+                onClick={() => setOpen((v) => !v)}
+                className={`flex h-10 w-10 items-center justify-center rounded-full border ${
+                  solid ? "border-brand-line text-brand-blue" : "border-white/30 text-white"
+                }`}
+              >
+                <div className="flex w-5 flex-col gap-1.5">
+                  <span
+                    className={`h-0.5 w-full rounded-full bg-current transition-transform ${
+                      open ? "translate-y-2 rotate-45" : ""
+                    }`}
+                  />
+                  <span
+                    className={`h-0.5 w-full rounded-full bg-current transition-opacity ${
+                      open ? "opacity-0" : ""
+                    }`}
+                  />
+                  <span
+                    className={`h-0.5 w-full rounded-full bg-current transition-transform ${
+                      open ? "-translate-y-2 -rotate-45" : ""
+                    }`}
+                  />
+                </div>
+              </button>
+            </div>
           </div>
         </header>
       </div>
@@ -197,14 +219,14 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
               >
-                Home
+                {t('home')}
               </Link>
               <Link
                 href="/#services"
                 onClick={() => setOpen(false)}
                 className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
               >
-                Services
+                {t('services')}
               </Link>
               {links.map((link, i) => (
                 <motion.div
@@ -227,14 +249,14 @@ export default function Header() {
                 onClick={() => setOpen(false)}
                 className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
               >
-                Founder
+                {t('founder')}
               </Link>
               <Link
                 href="/#contact"
                 onClick={() => setOpen(false)}
                 className="btn-primary mt-8"
               >
-                {primaryCta}
+                {t('primaryCta')}
               </Link>
             </div>
           </motion.div>

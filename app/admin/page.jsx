@@ -76,6 +76,14 @@ export default function AdminDashboardPage() {
             </p>
             <em>Go to workspace →</em>
           </Link>
+          <Link href="/admin/insights" className="admin-dash-card">
+            <span className="admin-dash-card-tag">Content</span>
+            <h3>Insights / Blog</h3>
+            <p>
+              Publish and manage bilingual insight articles in English and Arabic.
+            </p>
+            <em>Go to workspace →</em>
+          </Link>
           <a
             href="/"
             target="_blank"

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import CTA from "../../../components/CTA";
+import Header from "../../../../components/Header";
+import Footer from "../../../../components/Footer";
+import CTA from "../../../../components/CTA";
 import {
   API_URL,
   caseStudyHref,
@@ -15,7 +15,7 @@ import {
   demoCaseStudies,
   mediaUrl,
   slugify,
-} from "../../../lib/caseStudies";
+} from "../../../../lib/caseStudies";
 
 export default function CaseStudyCategoryPage() {
   const params = useParams();

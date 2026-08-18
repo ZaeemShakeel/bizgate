@@ -11,6 +11,12 @@ let remotePatterns = [
   {
     protocol: "http",
     hostname: "localhost",
+    port: "3000",
+    pathname: "/uploads/**",
+  },
+  {
+    protocol: "http",
+    hostname: "localhost",
     port: "5000",
     pathname: "/api/uploads/**",
   },
@@ -48,10 +54,22 @@ try {
   // ignore invalid env during build
 }
 
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin('./i18n/request.js');
+
 const nextConfig = {
   images: {
     remotePatterns,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:5000/api/:path*',
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

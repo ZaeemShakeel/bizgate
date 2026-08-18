@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
+import { useTranslations } from 'next-intl';
 import { primaryCta } from "../lib/siteContent";
 
 export default function Hero() {
@@ -29,6 +30,9 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
+  const t = useTranslations('Hero');
+  const tHeader = useTranslations('Header');
+
   return (
     <section id="top" ref={rootRef} className="relative min-h-[100svh] overflow-hidden">
       <div className="absolute inset-0">
@@ -50,23 +54,20 @@ export default function Hero() {
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-16 pt-44 md:px-8 md:pb-24 lg:justify-center lg:pb-20">
         <div className="max-w-4xl">
           <p className="hero-eyebrow mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-white/75">
-            Hospitality Reputation &amp; Growth · Middle East
+            {t('eyebrow')}
           </p>
           <h1 className="hero-title font-display text-[2.4rem] font-semibold leading-[1.12] tracking-[-0.04em] text-white md:text-5xl lg:text-[3.6rem]">
-            Stronger Reputation. Better Guest Experience. Smarter Regional Growth.
+            {t('title')}
           </h1>
           <p className="hero-copy mt-6 max-w-2xl text-base leading-relaxed text-white/82 md:text-lg">
-            BizGate is a Dubai-based hospitality and tourism consultancy helping hotels,
-            resorts, hotel groups, tourism authorities and hospitality technology companies
-            strengthen digital reputation, improve guest experience and grow across the Middle
-            East.
+            {t('copy')}
           </p>
           <div className="hero-actions mt-9 flex flex-wrap items-center gap-4">
             <Link href="/#contact" className="btn-primary on-dark">
-              {primaryCta} →
+              {tHeader('primaryCta')} →
             </Link>
             <Link href="/#services" className="btn-secondary">
-              Explore Our Services
+              {t('ctaSecondary')}
             </Link>
           </div>
           <motion.div
@@ -76,8 +77,7 @@ export default function Hero() {
           >
             <span className="h-2 w-2 shrink-0 rounded-full bg-brand-orange" />
             <span>
-              Digital-reputation expertise since 2008 · Founder-led · 28 years in travel and
-              tourism
+              {t('badge')}
             </span>
           </motion.div>
         </div>

@@ -143,6 +143,15 @@ export default function AdminShell({ title, children, activeCaseTab = "categorie
               </div>
             ) : null}
           </div>
+
+          <Link
+            href="/admin/insights"
+            className={`admin-nav-link ${pathname?.startsWith("/admin/insights") ? "active" : ""}`}
+            title="Insights"
+          >
+            <span className="admin-nav-icon" aria-hidden="true">✦</span>
+            {!collapsed ? <span>Insights</span> : null}
+          </Link>
         </nav>
 
         <button type="button" className="admin-logout" onClick={logout} title="Logout">

@@ -1,13 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "../i18n/routing";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 import { API_URL, caseStudyHref, clientLabel, demoCaseStudies, mediaUrl } from "../lib/caseStudies";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function CaseStudies({ limit = 3 }) {
+  const t = useTranslations("CaseStudies");
+  const locale = useLocale();
   const [cases, setCases] = useState(demoCaseStudies);
 
   useEffect(() => {
@@ -34,15 +37,13 @@ export default function CaseStudies({ limit = 3 }) {
       <div className="relative mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-orange">
-            Case Studies
+            {t("eyebrow")}
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
-            Regional Experience in Action.
+            {t("headline")}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg">
-            BizGate works with tourism authorities, hotel groups and hospitality technology
-            companies to turn market knowledge, guest feedback and performance data into practical
-            action.
+            {t("intro")}
           </p>
         </Reveal>
 
@@ -57,7 +58,7 @@ export default function CaseStudies({ limit = 3 }) {
                 >
                   <Image
                     src={mediaUrl(item.coverImage) || "/hero-hotel.jpg"}
-                    alt={item.title}
+                    alt={locale === "ar" ? item.title_ar || item.title : item.title}
                     fill
                     className="object-cover transition duration-700 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, 33vw"
@@ -67,7 +68,7 @@ export default function CaseStudies({ limit = 3 }) {
 
                   <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 p-4">
                     <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-md">
-                      {item.category || "BizGate Case"}
+                      {item.category || t("caseType")}
                     </span>
                     <span className="rounded-full border border-brand-orange/40 bg-brand-orange/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-orange backdrop-blur-md">
                       {clientLabel(item)}
@@ -76,14 +77,14 @@ export default function CaseStudies({ limit = 3 }) {
 
                   <div className="absolute inset-x-0 bottom-0 z-10 p-5 text-white">
                     <h3 className="font-display text-xl font-semibold leading-snug">
-                      {item.title}
+                      {locale === "ar" ? item.title_ar || item.title : item.title}
                     </h3>
                     <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/80">
-                      {item.challenge}
+                      {locale === "ar" ? item.challenge_ar || item.challenge : item.challenge}
                     </p>
                     <div className="mt-4 flex items-center justify-between text-sm font-semibold">
-                      <span>View case study</span>
-                      <span className="transition group-hover:translate-x-1">→</span>
+                      <span>{t("viewCase")}</span>
+                      <span className="transition group-hover:-translate-x-1 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1">→</span>
                     </div>
                   </div>
                 </motion.article>
@@ -95,7 +96,7 @@ export default function CaseStudies({ limit = 3 }) {
         {limit ? (
           <div className="mt-10">
             <Link href="/case-studies" className="btn-primary">
-              Browse all case studies
+              {t("browseAll")}
             </Link>
           </div>
         ) : null}

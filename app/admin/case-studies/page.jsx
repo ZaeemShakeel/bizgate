@@ -16,10 +16,16 @@ const defaultSections = [
 
 const emptyForm = {
   title: "",
+  title_ar: "",
   category: "",
   clientName: "",
   isAnonymous: false,
   sections: defaultSections.map((section) => ({ ...section })),
+  sections_ar: [
+    { title: "التحدي", body: "" },
+    { title: "منهجية العمل", body: "" },
+    { title: "الأثر", body: "" },
+  ],
   coverImage: "",
   gallery: [],
   videos: [],
@@ -126,6 +132,7 @@ function AdminCaseStudiesContent() {
     setForm((prev) => ({
       ...prev,
       sections: [...prev.sections, { title: "", body: "" }],
+      sections_ar: [...prev.sections_ar, { title: "", body: "" }],
     }));
   }
 
@@ -133,6 +140,16 @@ function AdminCaseStudiesContent() {
     setForm((prev) => ({
       ...prev,
       sections: prev.sections.filter((_, i) => i !== index),
+      sections_ar: prev.sections_ar.filter((_, i) => i !== index),
+    }));
+  }
+
+  function onSectionArChange(index, field, value) {
+    setForm((prev) => ({
+      ...prev,
+      sections_ar: prev.sections_ar.map((section, i) =>
+        i === index ? { ...section, [field]: value } : section
+      ),
     }));
   }
 
@@ -141,6 +158,7 @@ function AdminCaseStudiesContent() {
     setForm({
       ...emptyForm,
       sections: defaultSections.map((section) => ({ ...section })),
+      sections_ar: emptyForm.sections_ar.map((section) => ({ ...section })),
     });
   }
 
@@ -157,13 +175,27 @@ function AdminCaseStudiesContent() {
             { title: "Outcome / results", body: item.outcome || "" },
           ];
 
+    const sections_ar =
+      item.sections_ar?.length > 0
+        ? item.sections_ar.map((section) => ({
+            title: section.title || "",
+            body: section.body || "",
+          }))
+        : [
+            { title: "التحدي", body: item.challenge_ar || "" },
+            { title: "منهجية العمل", body: item.whatWeDid_ar || "" },
+            { title: "الأثر", body: item.outcome_ar || "" },
+          ];
+
     setEditingId(item._id);
     setForm({
       title: item.title || "",
+      title_ar: item.title_ar || "",
       category: item.category || "",
       clientName: item.clientName || "",
       isAnonymous: !!item.isAnonymous,
       sections,
+      sections_ar,
       coverImage: item.coverImage || "",
       gallery: item.gallery || [],
       videos: item.videos || [],
@@ -270,8 +302,13 @@ function AdminCaseStudiesContent() {
       .map((section) => ({
         title: section.title.trim(),
         body: section.body.trim(),
-      }))
-      .filter((section) => section.title && section.body);
+      }));
+      
+    const sections_ar = (form.sections_ar || [])
+      .map((section) => ({
+        title: section.title.trim(),
+        body: section.body.trim(),
+      }));
 
     if (!form.category) {
       flash(false, "Please select a category.");
@@ -291,6 +328,7 @@ function AdminCaseStudiesContent() {
       category: form.category,
       categorySlug: selected?.slug || slugify(form.category),
       sections,
+      sections_ar,
       order: Number(form.order || 0),
     };
 
@@ -517,9 +555,16 @@ function AdminCaseStudiesContent() {
                 <form onSubmit={handleCaseSubmit} className="admin-case-form">
                   <div className="admin-form-row">
                     <div className="admin-form-group">
-                      <label>Title *</label>
+                      <label>Title (English) *</label>
                       <input name="title" value={form.title} onChange={onChange} required />
                     </div>
+                    <div className="admin-form-group">
+                      <label>Title (Arabic)</label>
+                      <input name="title_ar" value={form.title_ar} onChange={onChange} dir="rtl" />
+                    </div>
+                  </div>
+                  
+                  <div className="admin-form-row">
                     <div className="admin-form-group">
                       <label>Category *</label>
                       <select
@@ -598,22 +643,43 @@ function AdminCaseStudiesContent() {
                             </button>
                           ) : null}
                         </div>
-                        <div className="admin-form-group">
-                          <label>Section title</label>
-                          <input
-                            value={section.title}
-                            onChange={(e) => onSectionChange(index, "title", e.target.value)}
-                            required
-                          />
+                        <div className="admin-form-row">
+                          <div className="admin-form-group">
+                            <label>Section title (English)</label>
+                            <input
+                              value={section.title}
+                              onChange={(e) => onSectionChange(index, "title", e.target.value)}
+                              required
+                            />
+                          </div>
+                          <div className="admin-form-group">
+                            <label>Section title (Arabic)</label>
+                            <input
+                              value={form.sections_ar?.[index]?.title || ""}
+                              onChange={(e) => onSectionArChange(index, "title", e.target.value)}
+                              dir="rtl"
+                            />
+                          </div>
                         </div>
-                        <div className="admin-form-group" style={{ marginBottom: 0 }}>
-                          <label>Section description</label>
-                          <textarea
-                            rows={4}
-                            value={section.body}
-                            onChange={(e) => onSectionChange(index, "body", e.target.value)}
-                            required
-                          />
+                        <div className="admin-form-row" style={{ marginBottom: 0 }}>
+                          <div className="admin-form-group">
+                            <label>Section body (English)</label>
+                            <textarea
+                              rows={5}
+                              value={section.body}
+                              onChange={(e) => onSectionChange(index, "body", e.target.value)}
+                              required
+                            />
+                          </div>
+                          <div className="admin-form-group">
+                            <label>Section body (Arabic)</label>
+                            <textarea
+                              rows={5}
+                              value={form.sections_ar?.[index]?.body || ""}
+                              onChange={(e) => onSectionArChange(index, "body", e.target.value)}
+                              dir="rtl"
+                            />
+                          </div>
                         </div>
                       </div>
                     ))}

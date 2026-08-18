@@ -1,0 +1,228 @@
+{
+  "Header": {
+    "home": "Home",
+    "about": "About BizGate",
+    "services": "Services",
+    "caseStudies": "Case Studies",
+    "insights": "Insights",
+    "contact": "Contact",
+    "founder": "Founder",
+    "primaryCta": "Book a Consultation"
+  },
+  "Hero": {
+    "eyebrow": "Hospitality Reputation & Growth · Middle East",
+    "title": "Stronger Reputation. Better Guest Experience. Smarter Regional Growth.",
+    "copy": "BizGate is a Dubai-based hospitality and tourism consultancy helping hotels, resorts, hotel groups, tourism authorities and hospitality technology companies strengthen digital reputation, improve guest experience and grow across the Middle East.",
+    "ctaSecondary": "Explore Our Services",
+    "badge": "Digital-reputation expertise since 2008 · Founder-led · 28 years in travel and tourism"
+  },
+  "About": {
+    "eyebrow": "About BizGate",
+    "title": "Regional Understanding. Specialist Hospitality Expertise.",
+    "copy1": "BizGate is a Dubai-based consultancy specializing in hospitality, tourism, digital reputation and regional market growth. We began operations in 2008 and rebranded in 2010, at a time when online guest reviews were beginning to transform how travellers selected hotels and destinations.",
+    "copy2": "Today, we work with hotels, resorts, hotel groups, tourism authorities, hospitality technology companies and international brands seeking to grow across the Middle East. Our role goes beyond providing data or technology — we help clients understand what the market is saying, identify what requires attention and turn insight into practical action.",
+    "founderBtn": "Meet the founder",
+    "founderRole": "Founder & CEO",
+    "since": "Since",
+    "diffEyebrow": "What Makes BizGate Different",
+    "diff1Title": "Hospitality and Tourism Specialization",
+    "diff1Copy": "Our work is grounded in 28 years of leadership experience across airlines, tourism authorities, hospitality, travel technology and regional market development.",
+    "diff2Title": "Regional Understanding",
+    "diff2Copy": "Based in Dubai and active across the Middle East, we understand the cultures, relationships and commercial realities that influence decisions in regional markets.",
+    "diff3Title": "Senior Involvement",
+    "diff3Copy": "Every engagement benefits from direct senior attention, from initial assessment and strategy through implementation, training and performance review.",
+    "diff4Title": "Cultural and Bilingual Capability",
+    "diff4Copy": "We understand guest sentiment and business communication in both Arabic and English, helping international expertise connect effectively with local market needs.",
+    "diff5Title": "Independent, Practical Advice",
+    "diff5Copy": "Our recommendations are shaped by each client's priorities — not by a single platform or technology provider. We focus on solutions that are relevant, practical and measurable.",
+    "processEyebrow": "How We Work",
+    "process1Step": "Listen",
+    "process1Copy": "We begin by understanding your objectives, current challenges, stakeholders and market environment.",
+    "process2Step": "Assess",
+    "process2Copy": "We examine the available data, guest feedback, operational practices and competitive position to identify the issues that matter most.",
+    "process3Step": "Advise",
+    "process3Copy": "We translate findings into clear priorities, practical recommendations and an achievable plan.",
+    "process4Step": "Support",
+    "process4Copy": "We work alongside leadership and operational teams through implementation, training, reporting and ongoing performance improvement.",
+    "processFooter": "We regularly meet client and partner teams on-site to present insights, discuss feedback and develop practical improvement priorities together.",
+    "principlesEyebrow": "Our Principles",
+    "principles": ["Credibility", "Specialist Expertise", "Partnership", "Practical Impact"],
+    "regionalEyebrow": "A Regional Partner With an Independent Perspective",
+    "regionalTitle": "Whether you are strengthening hotel performance, managing destination-wide quality, introducing hospitality technology or entering the GCC market, BizGate brings the regional understanding and specialist expertise required to move forward with confidence."
+  },
+  "Services": {
+    "eyebrow": "03 · Services",
+    "headline": "Hospitality Insight, Regional Expertise and Practical Execution.",
+    "intro": "BizGate helps hospitality and tourism organizations strengthen their reputation, understand guest experience and grow across Middle Eastern markets. Clients may engage us for a focused assignment or combine several services into a long-term advisory program.",
+    "servicesList": [
+      {
+        "id": "reputation",
+        "eyebrow": "01 · Digital Reputation",
+        "title": "Digital Reputation & Guest Experience Intelligence",
+        "copy": "Every review contains information about the guest experience. BizGate helps hotels transform that information into clear operational and commercial priorities.",
+        "points": [
+          "Digital reputation audits and benchmarking",
+          "Guest-sentiment and impact analysis",
+          "Review-response strategy and governance",
+          "Executive reporting and improvement plans"
+        ],
+        "cta": "Request a Reputation Audit →",
+        "image": "/service-digital.jpg",
+        "alt": "Digital reputation analytics dashboard"
+      },
+      {
+        "id": "destination",
+        "eyebrow": "02 · Destination Programs",
+        "title": "Destination Reputation & Quality Programs",
+        "copy": "BizGate works with tourism authorities to monitor, benchmark and improve hospitality performance across their destinations.",
+        "points": [
+          "Destination-wide hotel reputation monitoring",
+          "Guest-sentiment and quality analysis",
+          "Stakeholder and executive reporting",
+          "Hotel engagement, workshops and training"
+        ],
+        "cta": "Discuss a Destination Program →",
+        "image": "/service-advisory.jpg",
+        "alt": "Destination hospitality quality review"
+      },
+      {
+        "id": "hotel-group",
+        "eyebrow": "03 · Hotel Groups",
+        "title": "Hotel Group Performance Advisory",
+        "copy": "BizGate helps hotel groups replace fragmented guest-feedback data with a consistent view of performance across their portfolios.",
+        "points": [
+          "Group and property-level performance reporting",
+          "Comparative property benchmarking",
+          "Group-wide review-response standards",
+          "Executive summaries and leadership workshops"
+        ],
+        "cta": "Book a Hotel Group Consultation →",
+        "image": "/service-sales.jpg",
+        "alt": "Hotel group performance review"
+      },
+      {
+        "id": "mystery-guest",
+        "eyebrow": "04 · Mystery Guest",
+        "title": "Mystery Guest & Service Quality Audits",
+        "copy": "Online reviews reveal how guests perceive their experience. Mystery-guest audits verify what actually happens during that experience and whether service delivery meets operational and brand standards.",
+        "points": [
+          "Customized audit criteria and scoring",
+          "Complete guest journey assessments",
+          "Evidence-based reporting and executive summaries",
+          "Corrective action plans, training and follow-up"
+        ],
+        "cta": "Discuss a Mystery Guest Audit →",
+        "image": "/service-lobby.jpg",
+        "alt": "Hotel guest experience assessment"
+      },
+      {
+        "id": "gcc",
+        "eyebrow": "05 · GCC Market Entry",
+        "title": "GCC Market Entry & Representation",
+        "copy": "BizGate helps international hotels, destinations and travel companies enter and grow in the GCC through local knowledge, trusted relationships and direct market support.",
+        "points": [
+          "Market assessment and entry strategy",
+          "Sales representation and business development",
+          "B2B roadshows, trade events and launch activities",
+          "Local follow-up and market intelligence"
+        ],
+        "cta": "Explore GCC Market Representation →",
+        "image": "/service-marketing.jpg",
+        "alt": "GCC market development meeting"
+      },
+      {
+        "id": "hospitality-tech",
+        "eyebrow": "06 · Hospitality Technology",
+        "title": "Hospitality Technology Market Development",
+        "copy": "BizGate helps hospitality technology companies enter and grow across the Middle East through market assessment, regional positioning, business development and local support.",
+        "points": [
+          "Market potential and competitor assessment",
+          "Introductions to hotel owners, groups and decision-makers",
+          "Client onboarding and relationship support",
+          "Arabic-language and cultural market support"
+        ],
+        "cta": "Discuss Regional Growth Opportunities →",
+        "image": "/hero-growth.jpg",
+        "alt": "Hospitality technology partnership"
+      }
+    ],
+    "trainingEyebrow": "Training & Workshops",
+    "trainingTitle": "On-Site Training, Management Meetings & Executive Workshops",
+    "trainingCopy": "BizGate has conducted extensive on-site training, management meetings and executive workshops for hotels, hotel groups, tourism organizations and industry partners — turning insight into action with the people responsible for performance.",
+    "trainingCta": "Discuss an On-Site Training or Management Session →"
+  },
+  "HospitalityAI": {
+    "eyebrow": "Hospitality in the Age of AI",
+    "headline": "AI Creates Value When Human Judgment Remains in Control.",
+    "intro1": "Artificial intelligence can help hospitality teams analyse large volumes of guest feedback, identify patterns and prepare responses more efficiently. However, brand voice, cultural understanding, guest privacy, accuracy and sensitive decisions still require experienced human oversight.",
+    "intro2": "BizGate helps hospitality organizations adopt AI responsibly and practically — combining the speed of technology with regional expertise and human judgment.",
+    "pillars": [
+      {
+        "title": "AI Readiness & Governance",
+        "copy": "We assess your objectives, tools and workflows before recommending where AI can create genuine value — including response governance, approval processes, brand-voice guidelines and practical staff training."
+      },
+      {
+        "title": "Guest Experience Intelligence",
+        "copy": "AI-assisted analysis can transform large volumes of reviews and survey feedback into clearer themes and management priorities. BizGate adds human validation and operational context."
+      },
+      {
+        "title": "Digital & AI Discoverability",
+        "copy": "We assess how your brand appears across websites, listings, reviews and AI-generated answers, then help strengthen the clarity, consistency and authority of its digital presence."
+      }
+    ],
+    "footerText": "Technology can accelerate analysis. Human expertise determines what action to take.",
+    "cta": "Discuss Your AI Readiness →"
+  },
+  "Founder": {
+    "title": "Founder & Managing Director",
+    "name": "Mohamad Ibrahim Masri",
+    "bio1": "Mohamad brings 28 years of commercial leadership across the Middle East hospitality sector. Before establishing BizGate, he spent over two decades driving performance for some of the region’s most prominent hotel portfolios.",
+    "experienceTitle": "His experience includes:",
+    "experienceList": [
+      "Regional leadership roles, directing sales and marketing strategy across 50+ hotels in the GCC.",
+      "Pre-opening strategy and market entry for multiple international brands.",
+      "Restructuring commercial performance for underperforming properties.",
+      "Building high-performance teams across complex regional markets."
+    ],
+    "connect": "Connect on LinkedIn →",
+    "linkedinUrl": "https://www.linkedin.com/in/mohamadimasri/"
+  },
+  "CaseStudies": {
+    "eyebrow": "Case Studies",
+    "headline": "Regional Experience in Action.",
+    "intro": "BizGate works with tourism authorities, hotel groups and hospitality technology companies to turn market knowledge, guest feedback and performance data into practical action.",
+    "caseType": "BizGate Case",
+    "viewCase": "View case study",
+    "browseAll": "Browse all case studies"
+  },
+  "CaseStudiesIndex": {
+    "heroEyebrow": "Work / Case studies",
+    "heroHeadline": "Hospitality growth stories shaped by BizGate.",
+    "heroIntro": "Each case shows the client challenge, what BizGate delivered, and the outcome — with supporting visuals from campaigns, operations, and market activation.",
+    "exploreCases": "Explore cases",
+    "startProject": "Start a project",
+    "step1Label": "Client challenge",
+    "step1Copy": "Market gaps, weak demand, and brand friction across the region.",
+    "step2Label": "BizGate approach",
+    "step2Copy": "Sales, marketing, advisory, and digital activation built for the GCC.",
+    "step3Label": "Business outcome",
+    "step3Copy": "Stronger visibility, better pipeline quality, and measurable growth.",
+    "framework": "Framework",
+    "featuredEyebrow": "Featured work",
+    "featuredHeadline": "Select a BizGate case card to open the full story.",
+    "openCase": "Open case study"
+  },
+  "Insights": {
+    "eyebrow": "08 · Insights",
+    "headline": "Regional Perspectives on Hospitality, Reputation and Growth.",
+    "intro": "Practical thinking on hospitality management, digital reputation, guest experience and regional market development from BizGate.",
+    "readMore": "Read insight",
+    "browseAll": "Browse all insights",
+    "heroEyebrow": "Insights",
+    "heroHeadline": "Perspectives from the Field.",
+    "heroIntro": "Practical thinking on hospitality reputation, guest experience, technology and regional market development.",
+    "backToInsights": "← All insights",
+    "moreInsights": "More insights",
+    "noInsights": "No insights available yet."
+  }
+}
