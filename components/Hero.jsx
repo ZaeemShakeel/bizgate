@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
 import { useTranslations } from 'next-intl';
@@ -11,13 +11,21 @@ export default function Hero() {
   const rootRef = useRef(null);
   const videoRef = useRef(null);
 
-  useLayoutEffect(() => {
+  // Ensure video plays after hydration (handles browser autoplay policies)
+  useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      video.playbackRate = 0.75;
-      video.play().catch(() => {});
+    if (!video) return;
+    video.muted = true;
+    video.playbackRate = 0.75;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay was prevented — poster image will show as fallback
+      });
     }
+  }, []);
 
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
       tl.from(".hero-eyebrow", { y: 24, opacity: 0, duration: 0.7 })
@@ -44,7 +52,7 @@ export default function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/hero-growth.jpg"
         />
         <div className="hero-overlay absolute inset-0" />

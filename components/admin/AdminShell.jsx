@@ -146,11 +146,17 @@ export default function AdminShell({ title, children, activeCaseTab = "categorie
 
           <Link
             href="/admin/insights"
-            className={`admin-nav-link ${pathname?.startsWith("/admin/insights") ? "active" : ""}`}
-            title="Insights"
+            className={`admin-nav-link ${
+              pathname?.startsWith("/admin/insights") ||
+              pathname?.startsWith("/admin/blogs") ||
+              pathname?.startsWith("/admin/blog")
+                ? "active"
+                : ""
+            }`}
+            title="Insights / Blog"
           >
             <span className="admin-nav-icon" aria-hidden="true">✦</span>
-            {!collapsed ? <span>Insights</span> : null}
+            {!collapsed ? <span>Insights / Blog</span> : null}
           </Link>
         </nav>
 

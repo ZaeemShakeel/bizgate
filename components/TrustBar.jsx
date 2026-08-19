@@ -4,34 +4,36 @@ import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const highlights = [
-  {
-    numeral: "i",
-    title: "Hotels, Resorts and Hotel Groups",
-    copy: "Turn guest feedback into practical priorities, improve review-response performance and create consistent visibility across properties.",
-  },
-  {
-    numeral: "ii",
-    title: "Tourism Authorities and Destinations",
-    copy: "Monitor and benchmark hospitality quality across an entire destination, supported by executive reporting and stakeholder engagement.",
-  },
-  {
-    numeral: "iii",
-    title: "Hospitality Technology Companies",
-    copy: "Enter, localize and grow in the region through market development, sales representation, client onboarding and local support.",
-  },
-  {
-    numeral: "iv",
-    title: "International Brands Entering the GCC",
-    copy: "Build the relationships, positioning and route to market required for sustainable regional growth.",
-  },
-];
-
 export default function TrustBar() {
   const sectionRef = useRef(null);
+  const t = useTranslations("TrustBar");
+
+  const highlights = [
+    {
+      numeral: "i",
+      title: t("reputation_title"),
+      copy: t("reputation_copy"),
+    },
+    {
+      numeral: "ii",
+      title: t("destination_title"),
+      copy: t("destination_copy"),
+    },
+    {
+      numeral: "iii",
+      title: t("hospitalityTech_title"),
+      copy: t("hospitalityTech_copy"),
+    },
+    {
+      numeral: "iv",
+      title: t("gcc_title"),
+      copy: t("gcc_copy"),
+    },
+  ];
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -73,11 +75,10 @@ export default function TrustBar() {
             01
           </p>
           <h2 className="welcome-title mt-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
-            Who We Help
+            {t("title")}
           </h2>
           <p className="welcome-copy mt-5 text-base leading-relaxed text-white/72 md:text-lg">
-            A focused practice for the people who shape demand and protect reputation in Middle
-            East hospitality.
+            {t("copy")}
           </p>
         </div>
 

@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import AdminGuard from "../../../components/admin/AdminGuard";
 import AdminShell from "../../../components/admin/AdminShell";
-import { api } from "../../../lib/adminApi";
-import { slugify } from "../../../lib/caseStudies";
+import { api, uploadFiles } from "../../../lib/adminApi";
+import { mediaUrl, slugify } from "../../../lib/caseStudies";
 
 const emptyForm = {
   title: "",
@@ -21,42 +22,92 @@ const emptyForm = {
   isActive: true,
 };
 
-function InsightsContent() {
-  const params = useSearchParams();
-  const [panel, setPanel] = useState("manage");
+const PANEL_TITLES = {
+  manage: {
+    title: "Manage insights",
+    subtitle: "View, edit, or delete published insights articles",
+  },
+  add: {
+    title: "Create insight",
+    subtitle: "Write or update an insight article with bilingual contents",
+  },
+};
+
+export default function AdminInsightsPage() {
+  return (
+    <Suspense
+      fallback={
+        <AdminGuard>
+          <AdminShell title="Insights">
+            <div className="admin-empty">Loading…</div>
+          </AdminShell>
+        </AdminGuard>
+      }
+    >
+      <AdminGuard>
+        <AdminInsightsContent />
+      </AdminGuard>
+    </Suspense>
+  );
+}
+
+function AdminInsightsContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") || "manage";
+  const openPanel = ["manage", "add"].includes(tab) ? tab : "manage";
+
+  useEffect(() => {
+    if (!searchParams.get("tab")) {
+      router.replace("/admin/insights?tab=manage");
+    }
+  }, [searchParams, router]);
+
   const [insights, setInsights] = useState([]);
   const [form, setForm] = useState(emptyForm);
-  const [editId, setEditId] = useState(null);
-  const [saving, setSaving] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [editingId, setEditingId] = useState(null);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    const p = params.get("panel");
-    if (p) setPanel(p);
-  }, [params]);
-
-  const loadInsights = async () => {
-    setLoading(true);
+  async function load() {
     try {
-      const data = await api.get("/api/insights/manage/all");
+      const data = await api("/api/insights/manage/all");
       setInsights(data.insights || []);
-    } catch {
-      setError("Could not load insights.");
+    } catch (err) {
+      setError(err.message || "Could not load insights.");
     }
-    setLoading(false);
-  };
+  }
 
   useEffect(() => {
-    loadInsights();
+    load();
   }, []);
 
-  const handleField = (field, value) =>
-    setForm((prev) => ({ ...prev, [field]: value }));
+  function setPanel(id) {
+    router.replace(`/admin/insights?tab=${id}`);
+  }
 
-  const handleEdit = (item) => {
-    setEditId(item._id);
+  function flash(ok, text) {
+    setMessage(ok ? text : "");
+    setError(ok ? "" : text);
+  }
+
+  function onChange(event) {
+    const { name, value, type, checked } = event.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  }
+
+  function resetForm() {
+    setEditingId(null);
+    setForm(emptyForm);
+  }
+
+  function startEdit(item) {
+    setEditingId(item._id);
     setForm({
       title: item.title || "",
       title_ar: item.title_ar || "",
@@ -67,279 +118,349 @@ function InsightsContent() {
       content: item.content || "",
       summary_ar: item.summary_ar || "",
       content_ar: item.content_ar || "",
-      order: item.order ?? 0,
+      order: item.order || 0,
       isActive: item.isActive !== false,
     });
     setPanel("add");
-    setError("");
-    setSuccess("");
-  };
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Delete this insight?")) return;
+  async function handleUpload(event) {
+    const files = event.target.files;
+    if (!files?.length) return;
+
+    setUploading(true);
     try {
-      await api.delete(`/api/insights/${id}`);
-      setSuccess("Insight deleted.");
-      loadInsights();
-    } catch {
-      setError("Delete failed.");
+      const data = await uploadFiles(files);
+      const urls = (data.files || []).map((f) => f.url);
+      setForm((prev) => ({
+        ...prev,
+        coverImage: urls[0] || prev.coverImage,
+      }));
+      flash(true, "Cover image uploaded successfully");
+    } catch (err) {
+      flash(false, err.message || "Upload failed");
+    } finally {
+      setUploading(false);
+      event.target.value = "";
     }
-  };
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  function removeCover() {
+    setForm((prev) => ({ ...prev, coverImage: "" }));
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
     setSaving(true);
     setError("");
-    setSuccess("");
+    setMessage("");
+
+    const payload = {
+      ...form,
+      slug: form.slug ? slugify(form.slug) : slugify(form.title),
+      order: Number(form.order || 0),
+    };
+
     try {
-      const payload = {
-        ...form,
-        slug: form.slug ? slugify(form.slug) : slugify(form.title),
-      };
-      if (editId) {
-        await api.put(`/api/insights/${editId}`, payload);
-        setSuccess("Insight updated.");
+      if (editingId) {
+        await api(`/api/insights/${editingId}`, {
+          method: "PUT",
+          body: JSON.stringify(payload),
+        });
+        flash(true, "Insight updated successfully");
       } else {
-        await api.post("/api/insights", payload);
-        setSuccess("Insight created.");
+        await api("/api/insights", {
+          method: "POST",
+          body: JSON.stringify(payload),
+        });
+        flash(true, "Insight created successfully");
       }
-      setForm(emptyForm);
-      setEditId(null);
+      resetForm();
+      await load();
       setPanel("manage");
-      loadInsights();
     } catch (err) {
-      setError(err.message || "Save failed.");
+      flash(false, err.message || "Could not save insight");
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
-  };
+  }
 
-  const handleNew = () => {
-    setForm(emptyForm);
-    setEditId(null);
-    setPanel("add");
-    setError("");
-    setSuccess("");
-  };
+  async function removeInsight(id) {
+    if (!confirm("Delete this insight?")) return;
+    try {
+      await api(`/api/insights/${id}`, { method: "DELETE" });
+      flash(true, "Insight deleted successfully");
+      if (editingId === id) resetForm();
+      await load();
+    } catch (err) {
+      flash(false, err.message || "Could not delete insight");
+    }
+  }
 
-  const inputStyle = {
-    width: "100%",
-    padding: "10px 14px",
-    background: "#0f0f0f",
-    border: "1px solid #2a2a2a",
-    borderRadius: 8,
-    color: "#f5f5f5",
-    fontSize: 14,
-    outline: "none",
-    boxSizing: "border-box",
-  };
-
-  const labelStyle = {
-    fontSize: 12,
-    fontWeight: 600,
-    color: "#888",
-    letterSpacing: "0.08em",
-    textTransform: "uppercase",
-    marginBottom: 6,
-    display: "block",
-  };
-
-  const fieldBlock = (label, key, multiline = false, rows = 4, dir = "ltr") => (
-    <div style={{ marginBottom: 20 }}>
-      <label style={labelStyle}>{label}</label>
-      {multiline ? (
-        <textarea
-          id={`field-${key}`}
-          rows={rows}
-          value={form[key]}
-          onChange={(e) => handleField(key, e.target.value)}
-          style={{ ...inputStyle, resize: "vertical", direction: dir }}
-        />
-      ) : (
-        <input
-          id={`field-${key}`}
-          type="text"
-          value={form[key]}
-          onChange={(e) => handleField(key, e.target.value)}
-          style={{ ...inputStyle, direction: dir }}
-        />
-      )}
-    </div>
-  );
+  const panelMeta =
+    openPanel === "add" && editingId
+      ? { title: "Edit insight", subtitle: PANEL_TITLES.add.subtitle }
+      : PANEL_TITLES[openPanel] || PANEL_TITLES.manage;
 
   return (
-    <AdminShell>
-      {/* Nav tabs */}
-      <div style={{ display: "flex", gap: 12, marginBottom: 32 }}>
-        {["manage", "add"].map((tab) => (
-          <button
-            key={tab}
-            id={`tab-${tab}`}
-            onClick={() => { setPanel(tab); if (tab === "manage") { setEditId(null); setForm(emptyForm); } }}
-            style={{
-              padding: "8px 20px",
-              borderRadius: 8,
-              border: "none",
-              background: panel === tab ? "#c8a96e" : "#1a1a1a",
-              color: panel === tab ? "#000" : "#888",
-              fontWeight: 600,
-              cursor: "pointer",
-              fontSize: 13,
-            }}
-          >
-            {tab === "manage" ? "All Insights" : editId ? "Edit Insight" : "New Insight"}
-          </button>
-        ))}
-      </div>
+    <AdminShell title="Insights" activeCaseTab={openPanel === "add" ? "add" : "manage"}>
+      {message ? <div className="admin-alert admin-alert-success">{message}</div> : null}
+      {error ? <div className="admin-alert admin-alert-error">{error}</div> : null}
 
-      {success && (
-        <div style={{ background: "#1a2a1a", border: "1px solid #2d6a2d", color: "#6ddb6d", padding: "12px 16px", borderRadius: 8, marginBottom: 20, fontSize: 14 }}>
-          {success}
-        </div>
-      )}
-      {error && (
-        <div style={{ background: "#2a1a1a", border: "1px solid #6a2d2d", color: "#db6d6d", padding: "12px 16px", borderRadius: 8, marginBottom: 20, fontSize: 14 }}>
-          {error}
-        </div>
-      )}
-
-      {/* MANAGE LIST */}
-      {panel === "manage" && (
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
-            <h2 style={{ color: "#f5f5f5", fontSize: 18, margin: 0 }}>Insights ({insights.length})</h2>
-            <button id="btn-new-insight" onClick={handleNew} style={{ padding: "10px 20px", background: "#c8a96e", color: "#000", border: "none", borderRadius: 8, fontWeight: 700, cursor: "pointer" }}>
-              + New Insight
-            </button>
-          </div>
-
-          {loading ? (
-            <p style={{ color: "#666" }}>Loading…</p>
-          ) : insights.length === 0 ? (
-            <p style={{ color: "#666" }}>No insights yet. Create your first one!</p>
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {insights.map((item) => (
-                <div key={item._id} style={{ background: "#111", border: "1px solid #222", borderRadius: 10, padding: "18px 20px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ color: "#c8a96e", fontSize: 11, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 4 }}>
-                      {item.category || "Insights"} · Order {item.order}
-                    </div>
-                    <div style={{ color: "#f5f5f5", fontWeight: 600, marginBottom: 4 }}>{item.title}</div>
-                    {item.title_ar && <div style={{ color: "#999", fontSize: 13, direction: "rtl", textAlign: "right" }}>{item.title_ar}</div>}
-                    <div style={{ color: "#555", fontSize: 12, marginTop: 4 }}>{item.slug}</div>
-                    {!item.isActive && <span style={{ background: "#2a1a1a", color: "#db6d6d", fontSize: 11, padding: "2px 8px", borderRadius: 4, marginTop: 4, display: "inline-block" }}>Draft</span>}
-                  </div>
-                  <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                    <button id={`btn-edit-${item._id}`} onClick={() => handleEdit(item)} style={{ padding: "8px 14px", background: "#1a1a1a", color: "#c8a96e", border: "1px solid #2a2a2a", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>
-                      Edit
-                    </button>
-                    <button id={`btn-delete-${item._id}`} onClick={() => handleDelete(item._id)} style={{ padding: "8px 14px", background: "#1a0000", color: "#db6d6d", border: "1px solid #3a1a1a", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* ADD / EDIT FORM */}
-      {panel === "add" && (
-        <form onSubmit={handleSubmit}>
-          <h2 style={{ color: "#f5f5f5", fontSize: 18, marginBottom: 28 }}>
-            {editId ? "Edit Insight" : "New Insight"}
-          </h2>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
-            {/* Left: English */}
-            <div>
-              <div style={{ color: "#c8a96e", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16, borderBottom: "1px solid #222", paddingBottom: 8 }}>
-                English
-              </div>
-              {fieldBlock("Title", "title")}
-              {fieldBlock("Slug (auto-generated from title)", "slug")}
-              {fieldBlock("Category", "category")}
-              {fieldBlock("Cover Image URL", "coverImage")}
-              {fieldBlock("Summary (short intro)", "summary", true, 3)}
-              {fieldBlock("Content (full article)", "content", true, 12)}
-            </div>
-
-            {/* Right: Arabic */}
-            <div>
-              <div style={{ color: "#c8a96e", fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 16, borderBottom: "1px solid #222", paddingBottom: 8 }}>
-                Arabic / العربية
-              </div>
-              {fieldBlock("Title (Arabic)", "title_ar", false, 1, "rtl")}
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ ...labelStyle, marginBottom: 6 }}>Status</label>
-                <div style={{ display: "flex", gap: 12 }}>
-                  {[true, false].map((val) => (
-                    <label key={String(val)} style={{ display: "flex", alignItems: "center", gap: 6, color: "#ccc", cursor: "pointer", fontSize: 13 }}>
-                      <input
-                        type="radio"
-                        name="isActive"
-                        checked={form.isActive === val}
-                        onChange={() => handleField("isActive", val)}
-                      />
-                      {val ? "Published" : "Draft"}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label htmlFor="field-order" style={labelStyle}>Order</label>
-                <input
-                  id="field-order"
-                  type="number"
-                  value={form.order}
-                  onChange={(e) => handleField("order", Number(e.target.value))}
-                  style={{ ...inputStyle, width: 120 }}
-                />
-              </div>
-              {fieldBlock("Summary (Arabic)", "summary_ar", true, 3, "rtl")}
-              {fieldBlock("Content (Arabic)", "content_ar", true, 12, "rtl")}
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: 12, marginTop: 8 }}>
+      {/* Nav Tabs */}
+      <div className="admin-panel admin-tab-panel">
+        <div className="admin-panel-header" style={{ borderBottom: "1px solid var(--brand-line)" }}>
+          <div style={{ display: "flex", gap: 12 }}>
             <button
-              id="btn-submit-insight"
-              type="submit"
-              disabled={saving || !form.title}
-              style={{
-                padding: "12px 32px",
-                background: saving ? "#333" : "#c8a96e",
-                color: "#000",
-                border: "none",
-                borderRadius: 8,
-                fontWeight: 700,
-                cursor: saving ? "not-allowed" : "pointer",
-                fontSize: 15,
+              onClick={() => {
+                setPanel("manage");
+                resetForm();
               }}
+              className={`admin-btn ${openPanel === "manage" ? "admin-btn-primary" : "admin-btn-ghost"}`}
             >
-              {saving ? "Saving…" : editId ? "Update Insight" : "Create Insight"}
+              All Insights
             </button>
             <button
-              type="button"
-              onClick={() => { setPanel("manage"); setEditId(null); setForm(emptyForm); }}
-              style={{ padding: "12px 24px", background: "transparent", color: "#888", border: "1px solid #333", borderRadius: 8, cursor: "pointer", fontSize: 15 }}
+              onClick={() => {
+                resetForm();
+                setPanel("add");
+              }}
+              className={`admin-btn ${openPanel === "add" ? "admin-btn-primary" : "admin-btn-ghost"}`}
             >
-              Cancel
+              {editingId ? "Edit Insight" : "+ New Insight"}
             </button>
           </div>
-        </form>
-      )}
-    </AdminShell>
-  );
-}
+        </div>
 
-export default function InsightsAdminPage() {
-  return (
-    <AdminGuard>
-      <Suspense fallback={<div>Loading…</div>}>
-        <InsightsContent />
-      </Suspense>
-    </AdminGuard>
+        <div className="admin-panel-header">
+          <div>
+            <h2>{panelMeta.title}</h2>
+            <p className="admin-panel-sub">{panelMeta.subtitle}</p>
+          </div>
+        </div>
+
+        <div className="admin-panel-body">
+          {openPanel === "manage" ? (
+            !insights.length ? (
+              <div className="admin-empty">
+                No insights articles yet. Create your first one above.
+              </div>
+            ) : (
+              <div className="admin-table-wrap">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Insight Article</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {insights.map((item) => (
+                      <tr key={item._id}>
+                        <td>
+                          <strong>{item.title}</strong>
+                          <br />
+                          {item.title_ar && (
+                            <span style={{ color: "var(--brand-muted)", fontSize: 13 }} dir="rtl">
+                              {item.title_ar}
+                            </span>
+                          )}
+                          <br />
+                          <a
+                            href={`/insights/${item.slug}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            style={{ fontSize: 12, color: "var(--brand-blue)" }}
+                          >
+                            Open page
+                          </a>
+                        </td>
+                        <td>{item.category || "Insights"}</td>
+                        <td>
+                          <span
+                            className={`admin-badge ${
+                              item.isActive ? "admin-badge-active" : "admin-badge-inactive"
+                            }`}
+                          >
+                            {item.isActive ? "active" : "inactive"}
+                          </span>
+                        </td>
+                        <td>
+                          <div className="admin-actions">
+                            <button
+                              type="button"
+                              className="admin-btn admin-btn-ghost"
+                              onClick={() => startEdit(item)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-btn admin-btn-danger"
+                              onClick={() => removeInsight(item._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )
+          ) : null}
+
+          {openPanel === "add" ? (
+            <form onSubmit={handleSubmit} className="admin-case-form">
+              <div className="admin-form-row">
+                {/* Left Side: English */}
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+                  <h3 style={{ color: "var(--brand-blue)", fontSize: 15, borderBottom: "1px solid var(--brand-line)", paddingBottom: 8 }}>
+                    English Content
+                  </h3>
+                  
+                  <div className="admin-form-group">
+                    <label>Title *</label>
+                    <input name="title" value={form.title} onChange={onChange} required />
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Slug (auto-generated from title)</label>
+                    <input name="slug" value={form.slug} onChange={onChange} placeholder="e.g. ai-and-guest-reviews" />
+                  </div>
+
+                  <div className="admin-form-row" style={{ margin: 0, gap: 16 }}>
+                    <div className="admin-form-group" style={{ flex: 1 }}>
+                      <label>Category</label>
+                      <input name="category" value={form.category} onChange={onChange} placeholder="e.g. Technology" />
+                    </div>
+                    <div className="admin-form-group" style={{ width: 120 }}>
+                      <label>Order</label>
+                      <input type="number" name="order" value={form.order} onChange={onChange} />
+                    </div>
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Summary (English short intro) *</label>
+                    <textarea name="summary" rows={3} value={form.summary} onChange={onChange} required />
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Content (English full article) *</label>
+                    <textarea name="content" rows={12} value={form.content} onChange={onChange} required />
+                  </div>
+                </div>
+
+                {/* Right Side: Arabic */}
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
+                  <h3 style={{ color: "var(--brand-blue)", fontSize: 15, borderBottom: "1px solid var(--brand-line)", paddingBottom: 8 }}>
+                    Arabic Content / المحتوى العربي
+                  </h3>
+
+                  <div className="admin-form-group">
+                    <label>Title (Arabic)</label>
+                    <input name="title_ar" value={form.title_ar} onChange={onChange} dir="rtl" />
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Status</label>
+                    <div style={{ display: "flex", gap: 16, marginTop: 8 }}>
+                      <label className="admin-check" style={{ cursor: "pointer" }}>
+                        <input
+                          type="radio"
+                          name="isActive"
+                          checked={form.isActive === true}
+                          onChange={() => setForm((prev) => ({ ...prev, isActive: true }))}
+                        />
+                        Published
+                      </label>
+                      <label className="admin-check" style={{ cursor: "pointer" }}>
+                        <input
+                          type="radio"
+                          name="isActive"
+                          checked={form.isActive === false}
+                          onChange={() => setForm((prev) => ({ ...prev, isActive: false }))}
+                        />
+                        Draft
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="admin-form-group" style={{ marginTop: 24 }}>
+                    {/* Empty spacer to align rows roughly */}
+                    <div style={{ height: 26 }} />
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Summary (Arabic short intro)</label>
+                    <textarea name="summary_ar" rows={3} value={form.summary_ar} onChange={onChange} dir="rtl" />
+                  </div>
+
+                  <div className="admin-form-group">
+                    <label>Content (Arabic full article)</label>
+                    <textarea name="content_ar" rows={12} value={form.content_ar} onChange={onChange} dir="rtl" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Cover Image Upload (Unified style matching Case Studies) */}
+              <div className="admin-form-row" style={{ marginTop: 24 }}>
+                <div className="admin-form-group" style={{ flex: 1 }}>
+                  <label>Cover Image</label>
+                  <input
+                    type="file"
+                    accept="image/*,.svg"
+                    onChange={handleUpload}
+                    disabled={uploading}
+                  />
+                  <p style={{ fontSize: 12, color: "var(--brand-muted)", marginTop: 4 }}>
+                    Choose an image to upload as the article banner
+                  </p>
+                  {form.coverImage ? (
+                    <div className="mt-3 flex items-center gap-3">
+                      <div className="relative h-20 w-32 overflow-hidden rounded-lg border border-[var(--brand-line)] bg-brand-fog">
+                        <Image src={mediaUrl(form.coverImage)} alt="Preview" fill className="object-cover" />
+                      </div>
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn-danger"
+                        onClick={removeCover}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="admin-inline-actions" style={{ marginTop: 32 }}>
+                <button
+                  className="admin-btn admin-btn-primary"
+                  type="submit"
+                  disabled={saving || !form.title}
+                >
+                  {saving ? "Saving..." : editingId ? "Update Insight" : "Create Insight"}
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn admin-btn-ghost"
+                  onClick={() => {
+                    setPanel("manage");
+                    resetForm();
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : null}
+        </div>
+      </div>
+    </AdminShell>
   );
 }

@@ -76,7 +76,7 @@ export default function FounderPage() {
                 {t('connect')}
               </a>
               <Link href="/#contact" className="btn-secondary">
-                Talk to Mohamad
+                {t('talkTo')}
               </Link>
             </motion.div>
           </motion.div>
@@ -109,15 +109,15 @@ export default function FounderPage() {
               </div>
             </div>
 
-            <motion.div
+              <motion.div
               className="absolute -left-4 top-8 rounded-xl border border-white/70 bg-white px-4 py-3 shadow-lg"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-brand-muted">
-                Based in
+                {t('basedIn')}
               </p>
-              <p className="font-display text-lg font-semibold text-brand-blue">Dubai</p>
+              <p className="font-display text-lg font-semibold text-brand-blue">{t('basedInCity')}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -127,7 +127,7 @@ export default function FounderPage() {
         <div className="mx-auto max-w-3xl px-5 py-16 md:px-8 md:py-24">
           <Reveal>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-              Experience
+              {t('experienceEyebrow')}
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
               {t('experienceTitle')}

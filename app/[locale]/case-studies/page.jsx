@@ -224,8 +224,8 @@ export default function CaseStudiesIndexPage() {
 
                     {/* Soft top shade — compact so category stays readable */}
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.28)_45%,rgba(0,0,0,0)_100%)]" />
-                    {/* Soft bottom shade — long fade so the edge disappears */}
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-64 bg-[linear-gradient(0deg,rgba(0,0,0,0.88)_0%,rgba(0,0,0,0.62)_28%,rgba(0,0,0,0.32)_55%,rgba(0,0,0,0.12)_75%,rgba(0,0,0,0)_100%)]" />
+                    {/* Soft bottom shade — long gradual navy gradient for maximum text readability */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-80 bg-[linear-gradient(0deg,rgba(10,17,30,0.98)_0%,rgba(10,17,30,0.9)_35%,rgba(10,17,30,0.52)_65%,rgba(10,17,30,0.18)_85%,rgba(10,17,30,0)_100%)]" />
 
                     <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 p-5">
                       <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-md">
@@ -236,16 +236,16 @@ export default function CaseStudiesIndexPage() {
                       </span>
                     </div>
 
-                    <div className="absolute inset-x-0 bottom-0 z-10 p-5 text-white md:p-6">
-                      <h3 className="font-display text-2xl font-semibold leading-snug">
+                    <div className="absolute inset-x-0 bottom-0 z-10 px-5 pb-4 pt-5 text-white md:px-6 md:pb-5">
+                      <h3 className="font-display text-xl font-semibold leading-snug md:text-2xl">
                         {locale === "ar" ? item.title_ar || item.title : item.title}
                       </h3>
-                      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-white/80">
+                      <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-white/80 md:text-sm">
                         {locale === "ar" ? item.challenge_ar || item.challenge : item.challenge}
                       </p>
-                      <div className="mt-5 flex items-center justify-between border-t border-white/15 pt-4 text-sm font-semibold">
+                      <div className="mt-3.5 flex items-center justify-between border-t border-white/15 pt-3 text-xs font-semibold md:text-sm">
                         <span className="text-white/90">{t("openCase")}</span>
-                        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md transition group-hover:-translate-x-1 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 group-hover:bg-brand-blue">
+                        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-md transition group-hover:-translate-x-1 rtl:group-hover:-translate-x-1 ltr:group-hover:translate-x-1 group-hover:bg-brand-blue md:h-9 md:w-9">
                           →
                         </span>
                       </div>

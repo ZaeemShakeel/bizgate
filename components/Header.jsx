@@ -3,9 +3,18 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
-import { primaryCta, serviceNavItems } from "../lib/siteContent";
 import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '../i18n/routing';
+
+const serviceDropdownItems = [
+  { key: "reputation", href: "/#services" },
+  { key: "destination", href: "/#services" },
+  { key: "hotelGroup", href: "/#services" },
+  { key: "mysteryGuest", href: "/#services" },
+  { key: "gcc", href: "/#services" },
+  { key: "hospitalityTech", href: "/#services" },
+  { key: "training", href: "/#services" },
+];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -51,7 +60,7 @@ export default function Header() {
         <div className="bg-brand-navy text-white">
           <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-5 text-sm md:px-8">
             <p className="truncate text-white/85">
-              Hospitality reputation, guest experience &amp; regional growth · Dubai
+              {t('tagline')}
             </p>
             <div className="flex items-center gap-4">
               <button onClick={toggleLanguage} className="text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white transition">
@@ -115,14 +124,13 @@ export default function Header() {
                       exit={{ opacity: 0, y: 8 }}
                       className="absolute left-0 top-full z-50 mt-3 w-72 rounded-2xl border border-brand-line bg-white p-2 shadow-[0_16px_40px_rgba(26,35,50,0.12)]"
                     >
-                      {serviceNavItems.map((item) => (
+                      {serviceDropdownItems.map((item) => (
                         <Link
-                          key={item.label}
+                          key={item.key}
                           href={item.href}
                           className="block rounded-xl px-3 py-2.5 text-sm text-brand-ink/85 transition hover:bg-brand-fog hover:text-brand-blue"
                         >
-                          {/* Note: In a real scenario, serviceNavItems should also be translated */}
-                          {item.label}
+                          {t(`servicesDropdown.${item.key}`)}
                         </Link>
                       ))}
                     </motion.div>

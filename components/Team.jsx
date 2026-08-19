@@ -6,26 +6,28 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 import Reveal from "./Reveal";
+import { useTranslations } from "next-intl";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const team = [
-  {
-    name: "Mohamad Masri",
-    role: "Founder",
-    image: "/team-masri.jpg",
-    note: "Strategy, partnerships & regional growth leadership.",
-  },
-  {
-    name: "Bayan Othman",
-    role: "Sales & Marketing Director",
-    image: "/team-bayan.jpg",
-    note: "Brand performance, sales pipelines and market execution.",
-  },
-];
-
 export default function Team() {
   const sectionRef = useRef(null);
+  const t = useTranslations("Team");
+
+  const team = [
+    {
+      name: t("masri_name"),
+      role: t("masri_role"),
+      image: "/team-masri.jpg",
+      note: t("masri_note"),
+    },
+    {
+      name: t("bayan_name"),
+      role: t("bayan_role"),
+      image: "/team-bayan.jpg",
+      note: t("bayan_note"),
+    },
+  ];
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -63,13 +65,13 @@ export default function Team() {
       <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-            Professionals
+            {t("eyebrow")}
           </p>
           <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
-            Our management team
+            {t("title")}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-brand-muted">
-            Our managed services help hospitality brands succeed — let’s get started.
+            {t("copy")}
           </p>
         </Reveal>
 
@@ -114,7 +116,7 @@ export default function Team() {
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  Leadership
+                  {t("badge")}
                 </motion.div>
               )}
             </div>

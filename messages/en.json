@@ -5,9 +5,20 @@
     "services": "Services",
     "caseStudies": "Case Studies",
     "insights": "Insights",
+    "blog": "Blog",
     "contact": "Contact",
     "founder": "Founder",
-    "primaryCta": "Book a Consultation"
+    "primaryCta": "Book a Consultation",
+    "tagline": "Hospitality reputation, guest experience & regional growth · Dubai",
+    "servicesDropdown": {
+      "reputation": "Digital Reputation & Guest Experience Intelligence",
+      "destination": "Destination Reputation & Quality Programs",
+      "hotelGroup": "Hotel Group Performance Advisory",
+      "mysteryGuest": "Mystery Guest & Service Quality Audits",
+      "gcc": "GCC Market Entry & Representation",
+      "hospitalityTech": "Hospitality Technology Market Development",
+      "training": "Training & Management Workshops"
+    }
   },
   "Hero": {
     "eyebrow": "Hospitality Reputation & Growth · Middle East",
@@ -185,7 +196,11 @@
       "Building high-performance teams across complex regional markets."
     ],
     "connect": "Connect on LinkedIn →",
-    "linkedinUrl": "https://www.linkedin.com/in/mohamadimasri/"
+    "linkedinUrl": "https://www.linkedin.com/in/mohamadimasri/",
+    "talkTo": "Talk to Mohamad",
+    "basedIn": "Based in",
+    "basedInCity": "Dubai",
+    "experienceEyebrow": "Experience"
   },
   "CaseStudies": {
     "eyebrow": "Case Studies",
@@ -224,5 +239,98 @@
     "backToInsights": "← All insights",
     "moreInsights": "More insights",
     "noInsights": "No insights available yet."
+  },
+  "CTA": {
+    "eyebrow": "Enquiry Form",
+    "title": "Let Us Discuss Your Next Priority.",
+    "copy": "Whether you are strengthening your reputation, improving the guest experience, evaluating service quality, entering the GCC or developing a hospitality technology market, we would be pleased to understand your objectives.",
+    "subcopy": "Share a brief overview of your requirements and our team will respond in English or Arabic.",
+    "formTitle": "Enquiry Form",
+    "fullName": "Full Name *",
+    "organization": "Organization *",
+    "jobTitle": "Job Title *",
+    "email": "Business Email *",
+    "phone": "Phone Number (optional)",
+    "country": "Country or Market *",
+    "website": "Company Website (optional)",
+    "areaOfInterest": "Area of Interest *",
+    "objectives": "Tell Us About Your Objectives *",
+    "preferredLanguage": "Preferred Language *",
+    "submit": "Send Enquiry",
+    "submitting": "Sending...",
+    "successTitle": "Thank you",
+    "successMessage": "Your enquiry has been received. Our team will get back to you soon.",
+    "errorDefault": "Could not send your enquiry. Please try again.",
+    "addressLabel": "Address",
+    "addressValue": "Office 203, Golden Business Center, Al Maktoum Road, Port Saeed, Deira, Dubai, UAE",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "privacyNotice": "Your information will be used only to review and respond to your enquiry.",
+    "preferToMeet": "Prefer to meet? Book a Consultation",
+    "areasOfInterest": {
+      "reputation": "Digital Reputation & Guest Experience Intelligence",
+      "destination": "Destination Reputation & Quality Program",
+      "hotelGroup": "Hotel Group Performance Advisory",
+      "mysteryGuest": "Mystery Guest & Service Quality Audit",
+      "gcc": "GCC Market Entry & Representation",
+      "hospitalityTech": "Hospitality Technology Market Development",
+      "training": "On-Site Training or Management Workshop",
+      "other": "Other Enquiry"
+    },
+    "languages": {
+      "en": "English",
+      "ar": "Arabic"
+    }
+  },
+  "TrustBar": {
+    "title": "Who We Help",
+    "copy": "A focused practice for the people who shape demand and protect reputation in Middle East hospitality.",
+    "reputation_title": "Hotels, Resorts and Hotel Groups",
+    "reputation_copy": "Turn guest feedback into practical priorities, improve review-response performance and create consistent visibility across properties.",
+    "destination_title": "Tourism Authorities and Destinations",
+    "destination_copy": "Monitor and benchmark hospitality quality across an entire destination, supported by executive reporting and stakeholder engagement.",
+    "hospitalityTech_title": "Hospitality Technology Companies",
+    "hospitalityTech_copy": "Enter, localize and grow in the region through market development, sales representation, client onboarding and local support.",
+    "gcc_title": "International Brands Entering the GCC",
+    "gcc_copy": "Build the relationships, positioning and route to market required for sustainable regional growth."
+  },
+  "Solutions": {
+    "eyebrow": "04",
+    "title": "From Guest Feedback to Better Decisions",
+    "subTitle": "Guest feedback is everywhere. Actionable direction is not.",
+    "copy": "BizGate brings review data, guest sentiment, market knowledge and human judgment together — helping leadership teams understand what matters, decide what to improve and measure progress over time.",
+    "cardEyebrow": "We help organizations",
+    "item1": "Transform guest sentiment into operational priorities",
+    "item2": "Benchmark performance across hotels, groups or destinations",
+    "item3": "Strengthen review-response strategy and governance",
+    "item4": "Evaluate service delivery through mystery-guest audits",
+    "item5": "Equip teams through practical on-site training and management meetings",
+    "item6": "Build effective market-entry and regional-growth programs",
+    "cardFooter": "Whether you are protecting reputation, improving guest experience or entering the GCC, let us define the right next step.",
+    "cta": "Book a Consultation"
+  },
+  "Team": {
+    "eyebrow": "Professionals",
+    "title": "Our management team",
+    "copy": "Our managed services help hospitality brands succeed — let’s get started.",
+    "masri_name": "Mohamad Masri",
+    "masri_role": "Founder",
+    "masri_note": "Strategy, partnerships & regional growth leadership.",
+    "bayan_name": "Bayan Othman",
+    "bayan_role": "Sales & Marketing Director",
+    "bayan_note": "Brand performance, sales pipelines and market execution.",
+    "badge": "Leadership"
+  },
+  "Clients": {
+    "eyebrow": "Experience & Partners",
+    "title": "Leadership experience, client work and technology partnerships — kept distinct.",
+    "copy": "Founder and leadership experience reflects career history. Selected client experience reflects organizations BizGate has supported. Technology partners are named where relevant — BizGate remains an independent advisor, not a single-vendor reseller.",
+    "cat1": "Founder & leadership experience",
+    "cat2": "Selected client & partner experience",
+    "cat3": "Technology partners"
+  },
+  "Footer": {
+    "company": "Company",
+    "services": "Services"
   }
 }
