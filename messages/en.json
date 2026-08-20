@@ -34,8 +34,9 @@
     "copy2": "Today, we work with hotels, resorts, hotel groups, tourism authorities, hospitality technology companies and international brands seeking to grow across the Middle East. Our role goes beyond providing data or technology — we help clients understand what the market is saying, identify what requires attention and turn insight into practical action.",
     "founderBtn": "Meet the founder",
     "founderRole": "Founder & CEO",
+    "founderName": "Mohamad Ibrahim Masri",
     "since": "Since",
-    "diffEyebrow": "What Makes BizGate Different",
+    "diffEyebrow": "What Makes BizGate Different?",
     "diff1Title": "Hospitality and Tourism Specialization",
     "diff1Copy": "Our work is grounded in 28 years of leadership experience across airlines, tourism authorities, hospitality, travel technology and regional market development.",
     "diff2Title": "Regional Understanding",
@@ -57,12 +58,29 @@
     "process4Copy": "We work alongside leadership and operational teams through implementation, training, reporting and ongoing performance improvement.",
     "processFooter": "We regularly meet client and partner teams on-site to present insights, discuss feedback and develop practical improvement priorities together.",
     "principlesEyebrow": "Our Principles",
-    "principles": ["Credibility", "Specialist Expertise", "Partnership", "Practical Impact"],
+    "principles": [
+      "Credibility",
+      "Specialist Expertise",
+      "Partnership",
+      "Practical Impact"
+    ],
     "regionalEyebrow": "A Regional Partner With an Independent Perspective",
-    "regionalTitle": "Whether you are strengthening hotel performance, managing destination-wide quality, introducing hospitality technology or entering the GCC market, BizGate brings the regional understanding and specialist expertise required to move forward with confidence."
+    "regionalTitle": "Whether you are strengthening hotel performance, managing destination-wide quality, introducing hospitality technology or entering the GCC market, BizGate brings the regional understanding and specialist expertise required to move forward with confidence.",
+    "viewFullAbout": "Explore Our Full Methodology & Principles →",
+    "aboutHeroEyebrow": "About BizGate",
+    "aboutHeroTitle": "Hospitality Insight. Regional Expertise. Practical Execution.",
+    "aboutHeroSubtitle": "A Dubai-based advisory practice dedicated to hotel performance, guest experience intelligence and regional market growth across the Middle East.",
+    "stat1Num": "28+",
+    "stat1Label": "Years Experience",
+    "stat2Num": "2008",
+    "stat2Label": "Established",
+    "stat3Num": "50+",
+    "stat3Label": "Hotels Advised in GCC",
+    "stat4Num": "100%",
+    "stat4Label": "Independent Perspective"
   },
   "Services": {
-    "eyebrow": "03 · Services",
+    "eyebrow": "Our Services",
     "headline": "Hospitality Insight, Regional Expertise and Practical Execution.",
     "intro": "BizGate helps hospitality and tourism organizations strengthen their reputation, understand guest experience and grow across Middle Eastern markets. Clients may engage us for a focused assignment or combine several services into a long-term advisory program.",
     "servicesList": [
@@ -160,7 +178,9 @@
     "trainingEyebrow": "Training & Workshops",
     "trainingTitle": "On-Site Training, Management Meetings & Executive Workshops",
     "trainingCopy": "BizGate has conducted extensive on-site training, management meetings and executive workshops for hotels, hotel groups, tourism organizations and industry partners — turning insight into action with the people responsible for performance.",
-    "trainingCta": "Discuss an On-Site Training or Management Session →"
+    "trainingCta": "Discuss an On-Site Training or Management Session →",
+    "trainingCtaSecondary": "Book a Consultation",
+    "viewAllServices": "View All Services"
   },
   "HospitalityAI": {
     "eyebrow": "Hospitality in the Age of AI",
@@ -332,5 +352,19 @@
   "Footer": {
     "company": "Company",
     "services": "Services"
+  },
+  "ServicesPage": {
+    "heroEyebrow": "Our Services",
+    "heroTitle": "Hospitality Expertise, Regional Understanding.",
+    "heroIntro": "BizGate offers specialist hospitality and tourism advisory services tailored for the Middle East. Explore our full range of services or filter by area of focus.",
+    "filterAll": "All Services",
+    "learnMore": "Learn more",
+    "ctaLabel": "Book a Consultation",
+    "relatedTitle": "Related Services",
+    "notFound": "Service not found.",
+    "backToServices": "← Back to all services",
+    "keyPoints": "Key areas",
+    "detailCta": "Discuss this service with us →",
+    "loadError": "Could not load services. Please try again later."
   }
 }

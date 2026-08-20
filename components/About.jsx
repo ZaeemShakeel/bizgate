@@ -2,166 +2,294 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Reveal from "./Reveal";
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from "next-intl";
+
+const diffIcons = [
+  // Hospitality specialization
+  (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    </svg>
+  ),
+  // Regional understanding
+  (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+  ),
+  // Senior involvement
+  (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+    </svg>
+  ),
+  // Cultural capability
+  (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+    </svg>
+  ),
+  // Independent advice
+  (
+    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>
+  ),
+];
+
+const principleIcons = [
+  (
+    <svg className="h-6 w-6 text-brand-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+    </svg>
+  ),
+  (
+    <svg className="h-6 w-6 text-brand-sky" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+    </svg>
+  ),
+  (
+    <svg className="h-6 w-6 text-brand-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+  ),
+  (
+    <svg className="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+  ),
+];
 
 export default function About() {
-  const t = useTranslations('About');
-  const tHeader = useTranslations('Header');
+  const t = useTranslations("About");
+  const tHeader = useTranslations("Header");
+  const locale = useLocale();
+  const isAr = locale === "ar";
+
+  const [openDiffIndex, setOpenDiffIndex] = useState(0);
 
   const differentiators = [
     {
-      title: t('diff1Title'),
-      copy: t('diff1Copy'),
+      num: "01",
+      title: t("diff1Title"),
+      copy: t("diff1Copy"),
+      icon: diffIcons[0],
     },
     {
-      title: t('diff2Title'),
-      copy: t('diff2Copy'),
+      num: "02",
+      title: t("diff2Title"),
+      copy: t("diff2Copy"),
+      icon: diffIcons[1],
     },
     {
-      title: t('diff3Title'),
-      copy: t('diff3Copy'),
+      num: "03",
+      title: t("diff3Title"),
+      copy: t("diff3Copy"),
+      icon: diffIcons[2],
     },
     {
-      title: t('diff4Title'),
-      copy: t('diff4Copy'),
+      num: "04",
+      title: t("diff4Title"),
+      copy: t("diff4Copy"),
+      icon: diffIcons[3],
     },
     {
-      title: t('diff5Title'),
-      copy: t('diff5Copy'),
+      num: "05",
+      title: t("diff5Title"),
+      copy: t("diff5Copy"),
+      icon: diffIcons[4],
     },
   ];
 
   const process = [
-    { step: t('process1Step'), copy: t('process1Copy') },
-    { step: t('process2Step'), copy: t('process2Copy') },
-    { step: t('process3Step'), copy: t('process3Copy') },
-    { step: t('process4Step'), copy: t('process4Copy') },
+    { num: "01", step: t("process1Step"), copy: t("process1Copy"), color: "border-brand-sky text-brand-sky bg-brand-sky/10" },
+    { num: "02", step: t("process2Step"), copy: t("process2Copy"), color: "border-brand-teal text-brand-teal bg-brand-teal/10" },
+    { num: "03", step: t("process3Step"), copy: t("process3Copy"), color: "border-brand-orange text-brand-orange bg-brand-orange/10" },
+    { num: "04", step: t("process4Step"), copy: t("process4Copy"), color: "border-brand-blue text-brand-blue bg-brand-blue/10" },
   ];
 
-  const principles = t.raw('principles');
+  const principles = t.raw("principles");
+
+  function toggleDiff(idx) {
+    setOpenDiffIndex((prev) => (prev === idx ? -1 : idx));
+  }
 
   return (
     <section id="about" className="overflow-hidden bg-white">
-      <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
-        <div className="grid items-start gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
-          <Reveal direction="left" className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">{t('eyebrow')}</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl">
-              {t('title')}
+      <div className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+        {/* Top Hero Grid */}
+        <div className="grid items-start gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
+          <Reveal direction={isAr ? "right" : "left"} className="max-w-2xl">
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-orange">
+              {t("eyebrow")}
+            </p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-4xl lg:text-5xl">
+              {t("title")}
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-brand-muted md:text-base">
-              {t('copy1')}
+            <p className="mt-5 text-base leading-relaxed text-brand-muted md:text-lg">
+              {t("copy1")}
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-brand-muted md:text-base">
-              {t('copy2')}
+            <p className="mt-4 text-base leading-relaxed text-brand-muted md:text-lg">
+              {t("copy2")}
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/founder" className="btn-primary h-11 px-5">
-                {t('founderBtn')}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link href="/founder" className="btn-primary h-12 px-6 shadow-md hover:shadow-lg transition">
+                {t("founderBtn")}
               </Link>
-              <Link href="/#contact" className="btn-ghost h-11 px-5">
-                {tHeader('primaryCta')}
+              <Link href="/#contact" className="btn-ghost h-12 px-6">
+                {tHeader("primaryCta")}
               </Link>
             </div>
           </Reveal>
 
-          <Reveal direction="right" delay={0.08} className="relative mx-auto w-full max-w-[320px] lg:mx-0 lg:justify-self-end">
+          <Reveal direction={isAr ? "left" : "right"} delay={0.08} className="relative mx-auto w-full max-w-[340px] lg:mx-0 lg:justify-self-end">
             <motion.div
-              className="relative overflow-hidden rounded-2xl border border-brand-line bg-brand-fog shadow-[0_16px_40px_rgba(26,35,50,0.12)]"
-              animate={{ y: [0, -5, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative overflow-hidden rounded-3xl border border-brand-line bg-brand-fog shadow-[0_20px_50px_rgba(26,35,50,0.12)]"
+              animate={{ y: [0, -6, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <div className="relative h-[340px] sm:h-[360px]">
+              <div className="relative h-[360px] sm:h-[400px]">
                 <Image
                   src="/founder.jpg"
                   alt="Mohamad Ibrahim Masri, Founder of BizGate"
                   fill
                   className="object-cover object-top"
-                  sizes="320px"
+                  sizes="340px"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-orange">
-                  {t('founderRole')}
+              <div className="absolute bottom-0 inset-x-0 p-5 text-white">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand-orange">
+                  {t("founderRole")}
                 </p>
-                <h3 className="mt-1 font-display text-xl font-semibold">Mohamad Ibrahim Masri</h3>
+                <h3 className="mt-1 font-display text-xl font-semibold text-white">
+                  {t("founderName")}
+                </h3>
               </div>
             </motion.div>
 
             <motion.div
-              className="absolute -left-3 top-5 rounded-xl border border-white/80 bg-white px-3 py-2 shadow-md"
-              initial={{ opacity: 0, x: -16 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className={`absolute top-6 rounded-2xl border border-white/90 bg-white/95 backdrop-blur-md px-4 py-3 shadow-lg ${
+                isAr ? "-right-4" : "-left-4"
+              }`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.25, duration: 0.5 }}
             >
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-brand-muted">{t('since')}</p>
-              <p className="font-display text-lg font-semibold text-brand-blue">2008</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-brand-muted">
+                {t("since")}
+              </p>
+              <p className="font-display text-xl font-bold text-brand-blue">2008</p>
             </motion.div>
           </Reveal>
         </div>
 
-        <Reveal delay={0.06} className="mt-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-sky">
-            {t('diffEyebrow')}
-          </p>
-          <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {differentiators.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-brand-line bg-brand-fog/70 p-5"
-              >
-                <h3 className="font-display text-lg font-semibold text-brand-ink">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-brand-muted">{item.copy}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
-
-        <div className="mt-10 grid gap-4 lg:grid-cols-2">
-          <Reveal direction="left" className="rounded-2xl border border-brand-line bg-brand-fog/70 p-5 md:p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-sky">{t('processEyebrow')}</p>
-            <ul className="mt-4 space-y-4">
-              {process.map((item) => (
-                <li key={item.step}>
-                  <p className="font-display text-lg font-semibold text-brand-ink">{item.step}</p>
-                  <p className="mt-1 text-sm text-brand-muted">{item.copy}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-sm leading-relaxed text-brand-muted">
-              {t('processFooter')}
+        {/* ── What Makes BizGate Different (Interactive Accordion) ── */}
+        <Reveal delay={0.06} className="mt-20 md:mt-28">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 border-b border-brand-line/60 pb-6">
+            <div>
+              <h3 className="font-display text-2xl font-semibold text-brand-ink md:text-3xl">
+                {t("diffEyebrow")}
+              </h3>
+            </div>
+            <p className="text-xs font-medium text-brand-muted">
+              {isAr ? "اضغط على أي عنصر لعرض التفاصيل" : "Click any differentiator to expand details"}
             </p>
-          </Reveal>
+          </div>
 
-          <Reveal direction="right" delay={0.08} className="rounded-2xl border border-brand-line bg-brand-fog/70 p-5 md:p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-sky">{t('principlesEyebrow')}</p>
-            <ul className="mt-4 space-y-3">
-              {principles.map((item) => (
-                <li key={item} className="flex gap-2 text-sm text-brand-ink/90">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-orange" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
+          <div className="mt-8 space-y-3">
+            {differentiators.map((item, idx) => {
+              const isOpen = openDiffIndex === idx;
+              return (
+                <motion.div
+                  key={item.num}
+                  initial={false}
+                  animate={{
+                    backgroundColor: isOpen ? "rgba(42, 92, 170, 0.04)" : "#ffffff",
+                    borderColor: isOpen ? "rgba(42, 92, 170, 0.35)" : "rgba(226, 232, 240, 0.8)",
+                  }}
+                  className="overflow-hidden rounded-2xl border transition-colors duration-200"
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleDiff(idx)}
+                    className="flex w-full items-center justify-between gap-4 p-5 text-start transition md:p-6 focus:outline-none cursor-pointer"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex items-center gap-4 md:gap-5 min-w-0">
+                      <span
+                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                          isOpen
+                            ? "bg-brand-blue text-white shadow-sm"
+                            : "bg-brand-fog text-brand-blue"
+                        }`}
+                      >
+                        {item.icon}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-bold text-brand-muted/70">
+                          {item.num}
+                        </span>
+                        <span className="font-display text-base font-semibold text-brand-ink md:text-lg">
+                          {item.title}
+                        </span>
+                      </div>
+                    </div>
 
-        <Reveal delay={0.1} direction="scale" className="mt-8 overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1d22] via-[#2a2f36] to-[#1f8993] p-6 text-white md:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/60">
-            {t('regionalEyebrow')}
-          </p>
-          <h3 className="mt-2 font-display text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-            {t('regionalTitle')}
-          </h3>
-          <Link href="/#contact" className="btn-primary on-dark mt-6 inline-flex h-11 items-center px-5">
-            {tHeader('primaryCta')} →
-          </Link>
+                    <div
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 ${
+                        isOpen
+                          ? "rotate-180 border-brand-blue bg-brand-blue text-white"
+                          : "border-brand-line bg-white text-brand-muted hover:border-brand-blue/50"
+                      }`}
+                    >
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        key="content"
+                        initial="collapsed"
+                        animate="open"
+                        exit="collapsed"
+                        variants={{
+                          open: { opacity: 1, height: "auto" },
+                          collapsed: { opacity: 0, height: 0 },
+                        }}
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        <div className="border-t border-brand-line/40 px-5 pb-6 pt-4 md:px-6">
+                          <p className="text-sm leading-relaxed text-brand-muted md:text-base max-w-4xl">
+                            {item.copy}
+                          </p>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <Link
+              href="/about"
+              className="btn-ghost inline-flex items-center gap-2.5 px-8 font-medium transition-all group"
+            >
+              {t("viewFullAbout")}
+            </Link>
+          </div>
         </Reveal>
       </div>
     </section>
   );
 }
+

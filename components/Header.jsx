@@ -7,13 +7,13 @@ import { useTranslations, useLocale } from 'next-intl';
 import { Link, usePathname, useRouter } from '../i18n/routing';
 
 const serviceDropdownItems = [
-  { key: "reputation", href: "/#services" },
-  { key: "destination", href: "/#services" },
-  { key: "hotelGroup", href: "/#services" },
-  { key: "mysteryGuest", href: "/#services" },
-  { key: "gcc", href: "/#services" },
-  { key: "hospitalityTech", href: "/#services" },
-  { key: "training", href: "/#services" },
+  { key: "reputation", href: "/services/digital-reputation-guest-experience" },
+  { key: "destination", href: "/services/destination-reputation-quality" },
+  { key: "hotelGroup", href: "/services/hotel-group-performance-advisory" },
+  { key: "mysteryGuest", href: "/services/mystery-guest-service-quality" },
+  { key: "gcc", href: "/services/gcc-market-entry-representation" },
+  { key: "hospitalityTech", href: "/services/hospitality-technology-market-development" },
+  { key: "training", href: "/services/training-management-workshops" },
 ];
 
 export default function Header() {
@@ -27,7 +27,7 @@ export default function Header() {
   const router = useRouter();
 
   const links = [
-    { label: t('about'), href: "/#about" },
+    { label: t('about'), href: "/about" },
     { label: t('caseStudies'), href: "/case-studies" },
     { label: t('insights'), href: "/insights" },
     { label: t('contact'), href: "/#contact" },
@@ -58,17 +58,20 @@ export default function Header() {
     <>
       <div className="fixed inset-x-0 top-0 z-[60]">
         <div className="bg-brand-navy text-white">
-          <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-4 px-5 text-sm md:px-8">
-            <p className="truncate text-white/85">
+          <div className="mx-auto flex h-9 max-w-7xl items-center justify-between gap-3 px-4 text-xs sm:text-sm md:px-8">
+            <p className="truncate text-white/85 text-[11px] sm:text-xs md:text-sm">
               {t('tagline')}
             </p>
-            <div className="flex items-center gap-4">
-              <button onClick={toggleLanguage} className="text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white transition">
+            <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+              <button
+                onClick={toggleLanguage}
+                className="hidden sm:inline-block text-xs font-semibold uppercase tracking-widest text-white/80 hover:text-white transition"
+              >
                 {locale === 'en' ? 'العربية' : 'English'}
               </button>
               <Link
                 href="/#contact"
-                className="shrink-0 font-semibold text-brand-orange hover:text-white"
+                className="shrink-0 text-xs sm:text-sm font-semibold text-brand-orange hover:text-white transition"
               >
                 {t('primaryCta')} →
               </Link>
@@ -106,7 +109,7 @@ export default function Header() {
                 onMouseLeave={() => setServicesOpen(false)}
               >
                 <Link
-                  href="/#services"
+                  href="/services"
                   className={`inline-flex items-center gap-1 text-[0.92rem] font-medium tracking-wide transition-colors ${
                     solid
                       ? "text-brand-ink/75 hover:text-brand-blue"
@@ -230,7 +233,7 @@ export default function Header() {
                 {t('home')}
               </Link>
               <Link
-                href="/#services"
+                href="/services"
                 onClick={() => setOpen(false)}
                 className="block border-b border-brand-line py-4 font-display text-3xl text-brand-ink"
               >

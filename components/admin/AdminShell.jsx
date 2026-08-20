@@ -145,6 +145,17 @@ export default function AdminShell({ title, children, activeCaseTab = "categorie
           </div>
 
           <Link
+            href="/admin/services"
+            className={`admin-nav-link ${
+              pathname?.startsWith("/admin/services") ? "active" : ""
+            }`}
+            title="Services"
+          >
+            <span className="admin-nav-icon" aria-hidden="true">⬡</span>
+            {!collapsed ? <span>Services</span> : null}
+          </Link>
+
+          <Link
             href="/admin/insights"
             className={`admin-nav-link ${
               pathname?.startsWith("/admin/insights") ||
@@ -157,6 +168,17 @@ export default function AdminShell({ title, children, activeCaseTab = "categorie
           >
             <span className="admin-nav-icon" aria-hidden="true">✦</span>
             {!collapsed ? <span>Insights / Blog</span> : null}
+          </Link>
+
+          <Link
+            href="/admin/inquiries"
+            className={`admin-nav-link ${
+              pathname?.startsWith("/admin/inquiries") ? "active" : ""
+            }`}
+            title="Inquiries"
+          >
+            <span className="admin-nav-icon" aria-hidden="true">✉</span>
+            {!collapsed ? <span>Inquiries</span> : null}
           </Link>
         </nav>
 

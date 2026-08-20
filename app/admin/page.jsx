@@ -14,24 +14,33 @@ export default function AdminDashboardPage() {
     categories: 0,
     insights: 0,
     activeInsights: 0,
+    services: 0,
+    activeServices: 0,
+    inquiries: 0,
   });
 
   useEffect(() => {
     async function load() {
       try {
-        const [casesData, categoriesData, insightsData] = await Promise.all([
+        const [casesData, categoriesData, insightsData, servicesData, inquiriesData] = await Promise.all([
           api("/api/case-studies/manage/all"),
           api("/api/categories/manage/all"),
           api("/api/insights/manage/all"),
+          api("/api/services/manage/all"),
+          api("/api/inquiries"),
         ]);
         const cases = casesData.caseStudies || [];
         const insights = insightsData.insights || [];
+        const services = servicesData.services || [];
         setStats({
           cases: cases.length,
           activeCases: cases.filter((item) => item.isActive !== false).length,
           categories: (categoriesData.categories || []).length,
           insights: insights.length,
           activeInsights: insights.filter((item) => item.isActive !== false).length,
+          services: services.length,
+          activeServices: services.filter((item) => item.isActive !== false).length,
+          inquiries: (inquiriesData.inquiries || []).length,
         });
       } catch {
         // keep zeros
@@ -59,11 +68,14 @@ export default function AdminDashboardPage() {
             <Link href="/admin/insights?tab=manage" className="admin-btn admin-btn-primary" style={{ background: "rgba(255,255,255,0.18)", color: "white", border: "1.5px solid rgba(255,255,255,0.4)" }}>
               Insights / Blog
             </Link>
+            <Link href="/admin/services?tab=manage" className="admin-btn admin-btn-primary" style={{ background: "rgba(255,255,255,0.1)", color: "white", border: "1.5px solid rgba(255,255,255,0.3)" }}>
+              Services
+            </Link>
           </div>
         </section>
 
         {/* Stats Row */}
-        <section className="admin-dash-stats" style={{ gridTemplateColumns: "repeat(5, minmax(0, 1fr))" }}>
+        <section className="admin-dash-stats" style={{ gridTemplateColumns: "repeat(7, minmax(0, 1fr))" }}>
           <article className="admin-dash-stat">
             <span>Case Studies</span>
             <strong>{stats.cases}</strong>
@@ -83,6 +95,18 @@ export default function AdminDashboardPage() {
           <article className="admin-dash-stat" style={{ borderLeft: "3px solid var(--brand-sky)" }}>
             <span>Published Insights</span>
             <strong>{stats.activeInsights}</strong>
+          </article>
+          <article className="admin-dash-stat" style={{ borderLeft: "3px solid var(--brand-teal)" }}>
+            <span>Services</span>
+            <strong>{stats.services}</strong>
+          </article>
+          <article className="admin-dash-stat" style={{ borderLeft: "3px solid var(--brand-teal)" }}>
+            <span>Active Services</span>
+            <strong>{stats.activeServices}</strong>
+          </article>
+          <article className="admin-dash-stat" style={{ borderLeft: "3px solid #2563eb" }}>
+            <span>Inquiries</span>
+            <strong>{stats.inquiries}</strong>
           </article>
         </section>
 
@@ -106,6 +130,22 @@ export default function AdminDashboardPage() {
             </p>
             <em>Go to workspace →</em>
           </Link>
+          <Link href="/admin/services?tab=manage" className="admin-dash-card">
+            <span className="admin-dash-card-tag">Content</span>
+            <h3>Services</h3>
+            <p>
+              Publish, filter, and manage bilingual services and categories for the main site with key points and custom CTA buttons.
+            </p>
+            <em>Go to workspace →</em>
+          </Link>
+          <Link href="/admin/services?tab=add" className="admin-dash-card soft">
+            <span className="admin-dash-card-tag">Create</span>
+            <h3>New Service</h3>
+            <p>
+              Create a new bilingual service with key areas, descriptions, and custom SEO tags.
+            </p>
+            <em>Create service →</em>
+          </Link>
           <Link href="/admin/insights?tab=add" className="admin-dash-card soft">
             <span className="admin-dash-card-tag">Create</span>
             <h3>New Insight / Blog Post</h3>
@@ -114,6 +154,14 @@ export default function AdminDashboardPage() {
               to the insights and blog sections.
             </p>
             <em>Create article →</em>
+          </Link>
+          <Link href="/admin/inquiries" className="admin-dash-card">
+            <span className="admin-dash-card-tag">CRM</span>
+            <h3>Inquiries</h3>
+            <p>
+              View and manage all contact form submissions — search, filter by area, reply by email, or delete.
+            </p>
+            <em>View inquiries →</em>
           </Link>
           <a
             href="/"
@@ -124,7 +172,7 @@ export default function AdminDashboardPage() {
             <span className="admin-dash-card-tag">Website</span>
             <h3>View live site</h3>
             <p>
-              Preview how case studies, insights and categories appear on the
+              Preview how case studies, insights, services, and categories appear on the
               public BizGate website.
             </p>
             <em>Open website →</em>

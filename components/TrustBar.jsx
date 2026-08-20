@@ -71,10 +71,7 @@ export default function TrustBar() {
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-20">
         <div className="max-w-3xl">
-          <p className="welcome-eyebrow text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-            01
-          </p>
-          <h2 className="welcome-title mt-4 font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
+          <h2 className="welcome-title font-display text-3xl font-semibold tracking-[-0.03em] md:text-4xl">
             {t("title")}
           </h2>
           <p className="welcome-copy mt-5 text-base leading-relaxed text-white/72 md:text-lg">

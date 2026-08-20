@@ -166,26 +166,26 @@ function AdminCaseStudiesContent() {
     const sections =
       item.sections?.length > 0
         ? item.sections.map((section) => ({
-            title: section.title || "",
-            body: section.body || "",
-          }))
+          title: section.title || "",
+          body: section.body || "",
+        }))
         : [
-            { title: "The challenge", body: item.challenge || "" },
-            { title: "What BizGate did", body: item.whatWeDid || "" },
-            { title: "Outcome / results", body: item.outcome || "" },
-          ];
+          { title: "The challenge", body: item.challenge || "" },
+          { title: "What BizGate did", body: item.whatWeDid || "" },
+          { title: "Outcome / results", body: item.outcome || "" },
+        ];
 
     const sections_ar =
       item.sections_ar?.length > 0
         ? item.sections_ar.map((section) => ({
-            title: section.title || "",
-            body: section.body || "",
-          }))
+          title: section.title || "",
+          body: section.body || "",
+        }))
         : [
-            { title: "التحدي", body: item.challenge_ar || "" },
-            { title: "منهجية العمل", body: item.whatWeDid_ar || "" },
-            { title: "الأثر", body: item.outcome_ar || "" },
-          ];
+          { title: "التحدي", body: item.challenge_ar || "" },
+          { title: "منهجية العمل", body: item.whatWeDid_ar || "" },
+          { title: "الأثر", body: item.outcome_ar || "" },
+        ];
 
     setEditingId(item._id);
     setForm({
@@ -303,7 +303,7 @@ function AdminCaseStudiesContent() {
         title: section.title.trim(),
         body: section.body.trim(),
       }));
-      
+
     const sections_ar = (form.sections_ar || [])
       .map((section) => ({
         title: section.title.trim(),
@@ -513,9 +513,8 @@ function AdminCaseStudiesContent() {
                           <td>{item.category || "—"}</td>
                           <td>
                             <span
-                              className={`admin-badge ${
-                                item.isActive ? "admin-badge-active" : "admin-badge-inactive"
-                              }`}
+                              className={`admin-badge ${item.isActive ? "admin-badge-active" : "admin-badge-inactive"
+                                }`}
                             >
                               {item.isActive ? "active" : "inactive"}
                             </span>
@@ -563,7 +562,7 @@ function AdminCaseStudiesContent() {
                       <input name="title_ar" value={form.title_ar} onChange={onChange} dir="rtl" />
                     </div>
                   </div>
-                  
+
                   <div className="admin-form-row">
                     <div className="admin-form-group">
                       <label>Category *</label>

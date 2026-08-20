@@ -6,7 +6,10 @@ import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 import { useTranslations, useLocale } from "next-intl";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL =
+  typeof window !== "undefined"
+    ? ""
+    : process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const areaOfInterestKeys = [
   "reputation",

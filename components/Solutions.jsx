@@ -21,10 +21,7 @@ export default function Solutions() {
       <div className="relative mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
           <Reveal direction="left" className="max-w-xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sky">
-              {t("eyebrow")}
-            </p>
-            <h2 className="mt-4 font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
+            <h2 className="font-display text-3xl font-semibold tracking-[-0.03em] text-brand-ink md:text-5xl">
               {t("title")}
             </h2>
             <p className="mt-5 text-base leading-relaxed text-brand-muted md:text-lg">

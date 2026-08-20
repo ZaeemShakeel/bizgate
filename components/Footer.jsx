@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "../i18n/routing";
 import Logo from "./Logo";
 import { contactDetails } from "../lib/siteContent";
 import { useTranslations, useLocale } from 'next-intl';
@@ -8,18 +8,18 @@ const companyLinks = [
   { key: "founder", href: "/founder" },
   { key: "insights", href: "/insights" },
   { key: "caseStudies", href: "/case-studies" },
-  { key: "about", href: "/#about" },
+  { key: "about", href: "/about" },
   { key: "contact", href: "/#contact" },
 ];
 
 const serviceDropdownItems = [
-  { key: "reputation", href: "/#services" },
-  { key: "destination", href: "/#services" },
-  { key: "hotelGroup", href: "/#services" },
-  { key: "mysteryGuest", href: "/#services" },
-  { key: "gcc", href: "/#services" },
-  { key: "hospitalityTech", href: "/#services" },
-  { key: "training", href: "/#services" },
+  { key: "reputation", href: "/services/digital-reputation-guest-experience" },
+  { key: "destination", href: "/services/destination-reputation-quality" },
+  { key: "hotelGroup", href: "/services/hotel-group-performance-advisory" },
+  { key: "mysteryGuest", href: "/services/mystery-guest-service-quality" },
+  { key: "gcc", href: "/services/gcc-market-entry-representation" },
+  { key: "hospitalityTech", href: "/services/hospitality-technology-market-development" },
+  { key: "training", href: "/services/training-management-workshops" },
 ];
 
 export default function Footer() {

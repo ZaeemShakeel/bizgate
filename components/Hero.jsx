@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "../i18n/routing";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { motion } from "framer-motion";
@@ -74,17 +74,17 @@ export default function Hero() {
             <Link href="/#contact" className="btn-primary on-dark">
               {tHeader('primaryCta')} →
             </Link>
-            <Link href="/#services" className="btn-secondary">
+            <Link href="/services" className="btn-secondary">
               {t('ctaSecondary')}
             </Link>
           </div>
           <motion.div
-            className="hero-badge mt-10 inline-flex max-w-2xl flex-wrap items-center gap-x-3 gap-y-1 rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-sm text-white/85 backdrop-blur-md"
+            className="hero-badge mt-8 sm:mt-10 inline-flex max-w-2xl items-start sm:items-center gap-2.5 sm:gap-3 rounded-2xl sm:rounded-full border border-white/20 bg-white/10 px-4 py-2.5 text-xs sm:text-sm leading-relaxed text-white/90 backdrop-blur-md"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <span className="h-2 w-2 shrink-0 rounded-full bg-brand-orange" />
-            <span>
+            <span className="mt-1 sm:mt-0 h-2 w-2 shrink-0 rounded-full bg-brand-orange shadow-[0_0_8px_rgba(251,146,60,0.6)]" />
+            <span className="font-medium">
               {t('badge')}
             </span>
           </motion.div>
