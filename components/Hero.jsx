@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { motion } from "framer-motion";
 import { useTranslations } from 'next-intl';
 import { primaryCta } from "../lib/siteContent";
+import { socialMediaLinks } from "./SocialIcons";
 
 export default function Hero() {
   const rootRef = useRef(null);
@@ -32,7 +33,8 @@ export default function Hero() {
         .from(".hero-title", { y: 40, opacity: 0, duration: 0.9 }, "-=0.35")
         .from(".hero-copy", { y: 28, opacity: 0, duration: 0.7 }, "-=0.45")
         .from(".hero-actions", { y: 20, opacity: 0, duration: 0.6 }, "-=0.35")
-        .from(".hero-badge", { y: 16, opacity: 0, duration: 0.55 }, "-=0.3");
+        .from(".hero-badge", { y: 16, opacity: 0, duration: 0.55 }, "-=0.3")
+        .from(".hero-socials", { x: 30, opacity: 0, duration: 0.6 }, "-=0.3");
     }, rootRef);
 
     return () => ctx.revert();
@@ -90,6 +92,31 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+      {/* Floating Hero Social Links attached to the right side in the middle */}
+      <aside
+        aria-label="Social media links"
+        className="hero-socials absolute right-0 top-1/2 -translate-y-1/2 z-30 flex flex-col items-center gap-2 rounded-l-2xl border-y border-l border-white/20 bg-brand-ink/40 p-1.5 sm:p-2 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.36)]"
+      >
+        {socialMediaLinks.map((item) => {
+          const Icon = item.Icon;
+          return (
+            <a
+              key={item.name}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`BizGate on ${item.name}`}
+              className={`group relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-white/10 text-white/90 backdrop-blur-md transition-all duration-300 ${item.hoverBg} hover:text-white hover:scale-110 hover:-translate-x-1 hover:shadow-lg`}
+            >
+              <span className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-lg border border-white/15 bg-brand-navy/95 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl transition-all duration-200 group-hover:block group-hover:opacity-100 sm:inline-block">
+                {item.name}
+              </span>
+              <Icon className="h-5 w-5 fill-current" />
+            </a>
+          );
+        })}
+      </aside>
     </section>
   );
 }

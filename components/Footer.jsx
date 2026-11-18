@@ -1,6 +1,7 @@
 import { Link } from "../i18n/routing";
 import Logo from "./Logo";
 import { contactDetails } from "../lib/siteContent";
+import { socialMediaLinks } from "./SocialIcons";
 import { useTranslations, useLocale } from 'next-intl';
 
 const companyLinks = [
@@ -53,6 +54,28 @@ export default function Footer() {
               </>
             )}
           </p>
+          <div className="mt-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-sky mb-3">
+              {isAr ? "تابعنا على" : "Connect With Us"}
+            </p>
+            <div className="flex items-center gap-3">
+              {socialMediaLinks.map((item) => {
+                const Icon = item.Icon;
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`BizGate on ${item.name}`}
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 transition-all duration-300 ${item.hoverBg} hover:border-transparent hover:text-white hover:scale-110 shadow-sm`}
+                  >
+                    <Icon className="h-4.5 w-4.5 fill-current" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
         <div>
